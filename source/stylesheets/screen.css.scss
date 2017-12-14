@@ -65,6 +65,8 @@ html, body {
   // language selector for mobile devices
   .lang-selector {
     display: none;
+    font-size: 12px;
+    
     a {
       padding-top: 0.5em;
       padding-bottom: 0.5em;
@@ -103,7 +105,10 @@ html, body {
   }
 
   .logo {
-    margin-bottom: $logo-margin;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    margin-left: 35px;
+    width: 130px;
   }
 
   .search-results {
@@ -388,8 +393,20 @@ html, body {
     margin-top: 2.5em;
     margin-bottom: 0.8em;
   }
-
+  
   h4, h5, h6 {
+    color: rgba(0, 0, 0, 0.35);
+  }
+
+  h4 {
+    font-size: 13px;
+  }
+    
+  h5 {
+    font-size: 12px;
+  }
+  
+  h6 {
     font-size: 10px;
   }
 
