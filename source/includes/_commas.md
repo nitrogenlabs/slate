@@ -16,7 +16,7 @@ const story = [
 const story = [
   once,
   upon,
-  aTime,
+  aTime
 ];
 
 // bad
@@ -32,7 +32,7 @@ const hero = {
   firstName: 'Ada',
   lastName: 'Lovelace',
   birthYear: 1815,
-  superPower: 'computers',
+  superPower: 'computers'
 };
 ```
 
@@ -48,7 +48,7 @@ const story: StoryType = [
 const story: StoryType = [
   once,
   upon,
-  aTime,
+  aTime
 ];
 
 // bad
@@ -64,7 +64,7 @@ const hero: HeroType = {
   firstName: 'Ada',
   lastName: 'Lovelace',
   birthYear: 1815,
-  superPower: 'computers',
+  superPower: 'computers'
 };
 ```
 
