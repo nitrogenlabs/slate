@@ -10,6 +10,12 @@ const items = new Array();
 
 // good
 const items = [];
+
+// bad
+const colors = ['red',, 'blue'];
+
+// good
+const colors = ['red', 'blue'];
 ```
 
 ```typescript
@@ -18,13 +24,28 @@ const items: any[] = new Array();
 
 // good
 const items: any[] = [];
+
+// bad
+const colors: string[] = ['red',, 'blue'];
+
+// good
+const colors: string[] = ['red', 'blue'];
 ```
 
 * Use the literal syntax for array creation.
+* No sparse arrays. Arrays containing empty slots, most frequently due to multiple commas being used in an array literal.
+* TypeScript should enforce the use of, `T[]` instead of `Array<T>` for all types `T`.
 
 ### ESLint
 
-`"no-array-constructor"`
+`"no-array-constructor": "error"`
+
+`"no-sparse-arrays": "error"`
+
+### TSLint
+
+`"array-type": [true, "array"]`
+
 
 ## Add items
 
@@ -59,6 +80,7 @@ someStack.push('abracadabra');
 const len = items.length;
 const itemsCopy = [];
 let i;
+
 for (i = 0; i < len; i += 1) {
   itemsCopy[i] = items[i];
 }
@@ -72,6 +94,7 @@ const itemsCopy: any[] = [...items];
 const len: number = items.length;
 const itemsCopy: any[] = [];
 let i: number;
+
 for (i = 0; i < len; i += 1) {
   itemsCopy[i] = items[i];
 }
@@ -80,7 +103,7 @@ for (i = 0; i < len; i += 1) {
 const itemsCopy: any[] = [...items];
 ```
 
-* Use array spreads ... to copy arrays.
+* Use array spreads `...` to copy arrays.
 
 ## Convert to array
 
@@ -106,8 +129,7 @@ const nodes: any[] = Array.from(foo);
 const nodes: any[] = [...foo];
 ```
 
-* To convert an array-like object to an array, use spreads ... instead of
-  Array.from.
+* To convert an array-like object to an array, use spreads `...` instead of Array.from.
 
 > Mapping over iterables
 
@@ -127,8 +149,7 @@ const baz: any[] = [...foo].map(bar);
 const baz: any[] = Array.from(foo, bar);
 ```
 
-* Use Array.from instead of spread ... for mapping over iterables, because it
-  avoids creating an intermediate array.
+* Use `Array.from` instead of spread `...` for mapping over iterables, because it avoids creating an intermediate array.
 
 > Return statements
 
@@ -140,7 +161,7 @@ const baz: any[] = Array.from(foo, bar);
 });
 
 // good
-[1, 2, 3].map(x => x + 1);
+[1, 2, 3].map((x) => x + 1);
 
 // bad - no returned value means `memo` becomes undefined after the first
 iteration [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
@@ -177,13 +198,57 @@ inbox.filter((msg) => {
 });
 ```
 
-* Use return statements in array method callbacks. It’s ok to omit the return if
-  the function body consists of a single statement returning an expression
-  without side effects, following 8.2.
+```typescript
+// good
+[1, 2, 3].map((x) => {
+  const y = x + 1;
+  return x \* y;
+});
+
+// good
+[1, 2, 3].map((x) => x + 1);
+
+// bad - no returned value means `memo` becomes undefined after the first
+iteration [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
+  const flatten = memo.concat(item);
+  memo[index] = flatten;
+});
+
+// good
+[[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
+  const flatten = memo.concat(item);
+  memo[index] = flatten;
+  return flatten;
+});
+
+// bad
+inbox.filter((msg) => {
+  const { subject, author } = msg;
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee';
+  } else {
+    return false;
+  }
+});
+
+// good
+inbox.filter((msg) => {
+  const { subject, author } = msg;
+
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee';
+  }
+
+  return false;
+});
+```
+
+* Use return statements in array method callbacks. It's ok to omit the return if the function body consists of a single statement returning an expression without side effects.
 
 ### ESLint
 
-`"array-callback-return"`
+`"array-callback-return": "error"`
+
 
 ## Line breaks
 
@@ -239,5 +304,4 @@ const numberInArray: number[] = [
 ];
 ```
 
-* Use line breaks after open and before close array brackets if an array has
-  multiple lines
+* Use line breaks after open and before close array brackets if an array has multiple lines

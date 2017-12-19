@@ -25,6 +25,7 @@ const b: number = 2;
 ```
 
 * Use `const` for all references; avoid using `var`.
+* This ensures that you can't reassign your references, which can lead to bugs and difficult to comprehend code.
 
 ### ESLint
 
@@ -36,9 +37,6 @@ const b: number = 2;
 
 `"prefer-const": true`
 
-<aside class="notice">
-Why? This ensures that you can’t reassign your references, which can lead to bugs and difficult to comprehend code.
-</aside>
 
 ## let
 
@@ -76,23 +74,6 @@ if (true) {
 }
 ```
 
-* If you must reassign references, use `let` instead of `var`. eslint: no-var
-  jscs: disallowVar
-
-### ESLint
-
-`no-var: "error"`
-
-### TSLint
-
-`"no-var-keyword": true`
-
-<aside class="notice">
-Why? let is block-scoped rather than function-scoped like var.
-</aside>
-
-* Note that both let and const are block-scoped.
-
 > const and let only exist in the blocks they are defined in.
 
 ```javascript
@@ -112,3 +93,15 @@ console.log(b); // ReferenceError
 console.log(a); // ReferenceError
 console.log(b); // ReferenceError
 ```
+
+* If you must reassign references, use `let` instead of `var`.
+* `let` is block-scoped rather than function-scoped like `var`.
+* Note that both `let` and `const` are block-scoped.
+
+### ESLint
+
+`no-var: "error"`
+
+### TSLint
+
+`"no-var-keyword": true`

@@ -1,11 +1,5 @@
 # Destructuring
 
-## Rules
-
-### ESLint
-
-`"prefer-destructuring"`
-
 ## Object destructuring
 
 > Object destructuring
@@ -55,13 +49,6 @@ const getFullName = ({firstName, lastName}: UserType): string => {
 };
 ```
 
-* Use object destructuring when accessing and using multiple properties of an
-  object.
-
-<aside class="notice">
-Why? Destructuring saves you from creating temporary references for those properties.
-</aside>
-
 > Array destructuring
 
 ```javascript
@@ -85,8 +72,6 @@ const second: number = arr[1];
 // good
 const [first, second] = arr;
 ```
-
-* Use array destructuring.
 
 > Multiple return values
 
@@ -130,8 +115,12 @@ const processInput = (input): object => {
 const {left, top} = processInput(input);
 ```
 
+* Use object destructuring when accessing and using multiple properties of an object.
+* Destructuring saves you from creating temporary references for those properties.
+* Use array destructuring.
 * Use object destructuring for multiple return values, not array destructuring.
+* You can add new properties over time or change the order of things without breaking call sites.
 
-<aside class="notice">
-Why? You can add new properties over time or change the order of things without breaking call sites.
-</aside>
+### ESLint
+
+`"prefer-destructuring": ["error", {"array": true, "object": true}, {"enforceForRenamedProperties": false}]`

@@ -72,10 +72,9 @@ html, body {
   }
 
   // This is the logo at the top of the ToC
-  .logo {
+  &>img {
     display: block;
     max-width: 100%;
-    margin-bottom: $logo-margin;
   }
 
   &>.search {
@@ -101,6 +100,13 @@ html, body {
       color: $nav-text;
       @extend %icon-search;
     }
+  }
+
+  .logo {
+    position: relative;
+    left: 50%;
+    margin: 15px 0 30px -52px;
+    width: 100px;
   }
 
   .search-results {
@@ -203,7 +209,7 @@ html, body {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
-  color: $nav-text;
+  color: #fff;
   transition-property: background;
   transition-timing-function: linear;
   transition-duration: 130ms;

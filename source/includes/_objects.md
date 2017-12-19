@@ -26,6 +26,7 @@ const item: object = {};
 
 `"no-new-object": "error"`
 
+
 ## Computed property names
 
 > Computed property names
@@ -67,10 +68,7 @@ const obj: object = {
 ```
 
 * Use computed property names when creating objects with dynamic property names.
-
-<aside class="notice">
-Why? They allow you to define all the properties of an object in one place.
-</aside>
+* They allow you to define all the properties of an object in one place.
 
 ## Shorthand
 
@@ -116,16 +114,6 @@ const atom: object = {
 };
 ```
 
-* Use object method shorthand.
-
-### ESLint
-
-`"object-shorthand": ["error", "always"]`
-
-### TSLint
-
-`"object-literal-shorthand": [true, "never"]`
-
 > Object property shorthand
 
 ```javascript
@@ -155,12 +143,6 @@ const obj: object = {
   lukeSkywalker
 };
 ```
-
-* Use property value shorthand.
-
-<aside class="notice">
-Why? It is shorter to write and descriptive.
-</aside>
 
 > Group shorthand properties at the begninning
 
@@ -214,12 +196,6 @@ const obj: object = {
 };
 ```
 
-* Group your shorthand properties at the beginning of your object declaration.
-
-<aside class="notice">
-Why? It’s easier to tell which properties are using shorthand.
-</aside>
-
 > Only quote invalid identifiers
 
 ```javascript
@@ -254,13 +230,6 @@ const good: object = {
 };
 ```
 
-* Only quote properties that are invalid identifiers. eslint: quote-props jscs:
-  disallowQuotedKeysInObjects
-
-<aside class="notice">
-Why? In general we consider it subjectively easier to read. It improves syntax highlighting, and is also more easily optimized by many JS engines.
-</aside>
-
 > Do not call prototype methods directly
 
 ```javascript
@@ -292,13 +261,6 @@ import has from 'has';
 // ...
 console.log(has.call(object, key));
 ```
-
-* Do not call Object.prototype methods directly, such as hasOwnProperty,
-  propertyIsEnumerable, and isPrototypeOf.
-
-<aside class="notice">
-Why? These methods may be shadowed by properties on the object in question - consider {hasOwnProperty: false} - or, the object may be a null object (Object.create(null)).
-</aside>
 
 > Use object spreads
 
@@ -336,6 +298,25 @@ const copy: object = {...original, c: 3}; // copy => {a: 1, b: 2, c: 3}
 const {a, ...noA} = copy; // noA => {b: 2, c: 3}
 ```
 
-* Prefer the object spread operator over Object.assign to shallow-copy objects.
-  Use the object rest operator to get a new object with certain properties
-  omitted.
+* Use object method shorthand.
+* Use property value shorthand.
+* It is shorter to write and descriptive.
+* Group your shorthand properties at the beginning of your object declaration.
+* It's easier to tell which properties are using shorthand.
+* Only quote properties that are invalid identifiers. 
+* In general we consider it subjectively easier to read. It improves syntax highlighting, and is also more easily optimized by many JS engines.
+* Do not call `Object.prototype` methods directly, such as `hasOwnProperty`, `propertyIsEnumerable`, and `isPrototypeOf`.
+* These methods may be shadowed by properties on the object in question - consider `{hasOwnProperty: false}` - or, the object may be a null object `(Object.create(null))`.
+* Prefer the object spread operator over `Object.assign` to shallow-copy objects. Use the object rest operator to get a new object with certain properties omitted.
+
+### ESLint
+
+`"object-shorthand": "error"`
+
+`"quote-props": ["error", "as-needed"]`
+
+### TSLint
+
+`"object-literal-shorthand": true`
+
+`"object-literal-key-quotes": [true, "as-needed"]`
