@@ -3,8 +3,7 @@
 > Example store
 
 ```javascript
-import {Flux, Store} from 'arkhamjs';
-import {AppConstants} from '../constants/AppConstants';
+import {Store} from 'arkhamjs';
 
 // Extend the ArkhamJS Store class.
 export class AppStore extends Store {
@@ -12,21 +11,20 @@ export class AppStore extends Store {
     // Set the store name.
     super('app');
   }
-  
+
   initialState() {
     // Define default values.
     return {
-      test: 'default'
+      content: 'default'
     };
   }
 
   onAction(type, data, state) {
     // Define how each action type will affect the state.
     switch(type) {
-      case AppConstants.TEST:
-        state.test = data.demo;
-        return state;
-      case AppConstants.RESET:
+      case 'APP_CONTENT_UPDATE':
+        return {...state, content: data.content};
+      case 'APP_CONTENT_RESET':
         return this.initialState();
       default:
         return state;
@@ -36,8 +34,7 @@ export class AppStore extends Store {
 ```
 
 ```typescript
-import {Flux, Store} from 'arkhamjs';
-import {AppConstants} from '../constants/AppConstants';
+import {Store} from 'arkhamjs';
 
 // Extend the ArkhamJS Store class.
 export class AppStore extends Store {
@@ -45,21 +42,20 @@ export class AppStore extends Store {
     // Set the store name.
     super('app');
   }
-  
+
   initialState(): object {
     // Define default values.
     return {
-      test: 'default'
+      content: 'default'
     };
   }
 
   onAction(type: string, data, state): object {
     // Define how each action type will affect the state.
     switch(type) {
-      case AppConstants.TEST:
-        state.test = data.demo;
-        return state;
-      case AppConstants.RESET:
+      case 'APP_CONTENT_UPDATE':
+        return {...state, content: data.content};
+      case 'APP_CONTENT_RESET':
         return this.initialState();
       default:
         return state;
@@ -80,7 +76,7 @@ Let's start with giving your store a name. This name will be referenced when acc
 
 #### initialState
 
-It is best practice to give all your properties a default value but not required. When ArkhamJS is initialized, it will grab the defaults to be used as initial values before any action is dispatched. Values can be any value, including numbers, strings, arrays, objects, and functions. 
+It is best practice to give all your properties a default value but not required. When ArkhamJS is initialized, it will grab the defaults to be used as initial values before any action is dispatched. Values can be any value, including numbers, strings, arrays, objects, and functions.
 
 #### onAction
 
