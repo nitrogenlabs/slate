@@ -13,55 +13,26 @@ Although we recommend installing the node module, you may access the source file
 
 ### ArkhamJS
 
-> Install using [npm](http://npmjs.com):
+> Install ArkhamJS
 
 ```javascript
-// Install ArkhamJS
+// Install using npm:
 $ npm install --save arkhamjs
-```
 
-```typescript
-// Install ArkhamJS
-$ npm install --save arkhamjs
-```
-
-> Install using [yarn](https://yarnpkg.com):
-
-```javascript
+// Install using yarn:
 $ yarn add arkhamjs
 ```
 
 ```typescript
+// Install using npm:
+$ npm install --save arkhamjs
+
+// Install using yarn:
 $ yarn add arkhamjs
 ```
 
-ArkhamJS can be used in all modern browsers.
+ArkhamJS can be used in all modern browsers as well as within NodeJS and React Native apps.
 
-### ArkhamJS Native
-
-> Install using [npm](http://npmjs.com):
-
-```javascript
-// Install ArkhamJS Native
-$ npm install --save arkhamjs-native
-```
-
-```typescript
-// Install ArkhamJS Native
-$ npm install --save arkhamjs-native
-```
-
-> Install using [yarn](https://yarnpkg.com):
-
-```javascript
-$ yarn add arkhamjs-native
-```
-
-```typescript
-$ yarn add arkhamjs-native
-```
-
-If planning on using ArkhamJS with React Native, then please use the ArkhamJS Native version. It is modified slightly to work within the mobile environment. Some of those differences include saving state in AsyncStorage instead of SessionStorage.
 
 ## Importing
 
@@ -77,8 +48,10 @@ import {Flux} from 'arkhamjs';
 
 Then with a module bundler like webpack that supports either CommonJS or ES2015 modules, use as you would anything else:
 
-## Starter Skeleton
+## Starter Skeletons
 
-For the quickest way to get started, we setup a skeleton to get started. You can [download](https://github.com/nitrogenlabs/arkhamjs-skeleton/archive/master.zip) the latest version and have a sample site up within minutes!
+For the quickest way to get started, we setup a skeleton to get started. Get the latest version and have a sample site up within minutes!
 
-The project is complete with a pre-existing file structure, sample layout views, components, and even server setup with Webpack.
+ * [React](https://github.com/nitrogenlabs/arkhamjs-skeleton-react/archive/master.zip) 
+
+The projects are complete with a pre-existing file structure, sample layout views, components, and even server setup with Webpack.

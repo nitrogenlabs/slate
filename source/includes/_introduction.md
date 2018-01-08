@@ -22,8 +22,8 @@ To prevent object referencing, we use immutable objects. When a state changes in
 
 ### Cache
 
-Your single store id stored in SessionStorage by default. While this can be turned off in your options, it can be very useful when saving state.
+Your single store can be persisted in a cache. Caches available are browser (local or session), React Native's AsyncStorage, and Node. While caching is optional, it can be very useful when saving state.
 
 ### Debugger
 
-The most important factor in choosing a framework is how easy it is to build with it. And with building comes debugging. A detailed debugger is included with the framework. When turned on, it will display any actions that come through the framework. Making the previous and new state visible to the developer. Great way to make your data transparent! Supported browsers: Chrome, Firefox, and Safari.
+The most important factor in choosing a framework is how easy it is to build with it. And with building comes debugging. A detailed debugger is optional with the framework. When included, it will display any actions that come through the framework. Making the previous and new state visible to the developer. Great way to make your data transparent! Supported browsers: Chrome, Firefox, and Safari.

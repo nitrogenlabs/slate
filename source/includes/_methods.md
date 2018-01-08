@@ -2,53 +2,50 @@
 
 ## Configuration
 
-### .config(options)
+### #config(options)
 
 > Set configuration within root view component
 
 ```javascript
-import {Flux, FluxDebugLevel} from 'arkhamjs';
+import {BrowserStorage} from '@nlabs/arkhamjs-storage-browser';
+import {Flux} from 'arkhamjs';
 
 const env = 'development';
+const storage = new BrowserStorage({type: 'session'});
 
 Flux.config({
-  debugLevel: env === 'development' 
-    ? FluxDebugLevel.DISPATCH 
-    : FluxDebugLevel.DISABLED,
   name: 'MyApp',
-  useCache: true
+  storage
 });
 ```
 
 ```typescript
-import {Flux, FluxDebugLevel} from 'arkhamjs';
+import {BrowserStorage} from '@nlabs/arkhamjs-storage-browser';
+import {Flux} from 'arkhamjs';
 
 const env: string = 'development';
+const storage: BrowserStorage = new BrowserStorage({type: 'session'});
 
 Flux.config({
-  debugLevel: env === 'development' 
-  ? FluxDebugLevel.DISPATCH 
-  : FluxDebugLevel.DISABLED,
   name: 'MyApp',
-  useCache: true
+  storage
 });
 ```
 
 Set configuration options.
 
 #### Arguments
-* **options** (*object*): Configuration options.
-  * **debugLevel** (*number*): Enable the debugger. You can specify to show console.logs and/or Flux dispatches. You can use a numeric value or one of the pre-defined constants: FluxDebugLevel.DISABLED (0, disable debugger), FluxDebugLevel.LOGS (1, only allow console logs), FluxDebugLevel.DISPATCH (2, display both, console logs and dispatcher action details).
-  * **debugLogFnc** (*function*) - (optional) Passes the debug data to the specified function with the debugLevel as the first parameter and the data as the 1-n parameters. Executed when `Flux.debugLog()` is run.
-  * **debugInfoFnc** (*function*) - (optional) Passes the debug data to the specified function with the debugLevel as the first parameter and the data as the 1-n parameters. Executed when `Flux.debugError()` is run.
-  * **debugErrorFnc** \(*function*) - (optional) Passes the debug data to the specified function with the debugLevel as the first parameter and the data as the 1-n parameters. Executed when `Flux.debugInfo()` is run.
+* [`options`] \(*object*): Configuration options.
   * **name** \(*string*) - Name of your app. Should not contain spaces. Is used as the session storage property for your cache. *Default: arkhamjs*
-  * **useCache** \(*boolean*) - Enable caching to session storage. *Default: true*
+  * **storage** \(*object*) - Add a persistent storage for the app state.
+
+#### Returns
+A promise with a null object.
 
 
 ## Events
 
-### .on(eventType, data)
+### #on(eventType, data)
 
 > Triggering and listening to events.
 
@@ -141,7 +138,7 @@ Adds an event listener. It is called any time an action is dispatched to Flux, a
 * [`listener`] \(*function*): The callback to be invoked any time an action has been dispatched.
 
 
-### .off(eventType, data).
+### #off(eventType, data).
 Removes an event listener.
 
 #### Arguments
@@ -149,7 +146,7 @@ Removes an event listener.
 * [`listener`] \(*function*): The callback associated with the subscribed event.
 
 
-### .dispatch(action, silent)
+### #dispatch(action, silent)
 Dispatches an Action to all stores.
 
 #### Arguments
@@ -162,7 +159,7 @@ A promise with an action object.
 
 ## Stores
 
-### .getStore(name, default)
+### #getStore(name, default)
 
 > Get store data
 
@@ -191,14 +188,14 @@ Flux.getStore(['app', 'test'], 'default');
 Get the state tree. If only a particular store is needed, it can be specified.
 
 #### Arguments
-* [`name`] \(*string*|*array*): (optional) A store name. May also use an array to get a nested property value.
+* [`name`] \(*string*|*string[]*): (optional) A store name. May also use an array to get a nested property value.
 * [`default`] \(*any*): (optional) The default value, if undefined. This may be a string, number, array or object.
 
 #### Returns
 The app store object.
 
 
-### .setStore(name, value)
+### #setStore(name, value)
 
 > Set store data
 
@@ -218,17 +215,17 @@ Flux.setStore('app.test', 'Hello World');
 Flux.setStore(['app', 'test'], 'Hello World');
 ```
 
-Used for unit testing. Set a store value. If only a particular store or property needs to be set, it can be specified.
+Used for unit testing. Set a store value. If only a particular store or property needs to be set, it can be specified. It is best practice to set update the state via actions, not directly using `setStore`.
 
 #### Arguments
-* [`name`] \(*string*|*array*): A store name. May also use an array to get a nested property value.
+* [`name`] \(*string*|*string[]*): A store name. May also use an array to get a nested property value.
 * [`value`] \(*any*): The value to set. This may be a string, number, boolean, array, or object.
 
 #### Returns
 The updated store and returns the stored object.
 
 
-### .getClass(name)
+### #getClass(name)
 
 > Get a store class
 
@@ -251,7 +248,7 @@ Get the store class object.
 A store class object.
 
 
-### .registerStores(array)
+### #registerStores(stores)
 
 > Register a store
 
@@ -272,13 +269,13 @@ Flux.registerStores([AppStore]);
 Registers stores with Flux. Use an array of classes to register multiple.
 
 #### Arguments
-* [`Class`] \(*array*): The store class(s) to add to Flux.
+* [`Class`] \(*Store[]*): The store class(s) to add to Flux.
 
 #### Returns
 An array of store class objects.
 
 
-### .deregisterStore(name)
+### #deregisterStores(names)
 
 > Remove a store from the app
 
@@ -295,78 +292,12 @@ Flux.deregisterStores(['app']);
 Deregisters stores from Flux. Use an array of names to deregister multiple stores.
 
 #### Arguments
-* [`name`] \(*array*): Name of store(s) to remove from Flux.
+* [`names`] \(*string[]*): Name of store(s) to remove from Flux.
 
 
-## SessionStorage
+### #clearAppData()
 
-### .getSessionData(key)
-
-> Get data from session storage
-
-```javascript
-Flux.getSessionData('myData');
-```
-
-```typescript
-Flux.getSessionData('myData');
-```
-
-Get an object from sessionStorage.
-
-#### Arguments
-* [`key`] \(*string*): Key of object to retrieve.
-
-#### Returns
-A value from session storage.
-
-
-### .setSessionData(key, value)
-
-> Set data in session storage
-
-```javascript
-Flux.setSessionData('myData', 'Hello World');
-```
-
-```typescript
-Flux.setSessionData('myData', 'Hello World');
-```
-
-Save an object to sessionStorage.
-
-#### Arguments
-* [`key`] \(*string*): Key to reference object.
-* [`value`] \(*any*): A value to save to SessionStorage. All objects will converted to a string before saving.
-
-#### Returns
-A boolean indicating if data was successfully saved to sessionStorage.
-
-
-### .delSessionData(key)
-
-> Set data in session storage
-
-```javascript
-Flux.delSessionData('myData');
-```
-
-```typescript
-Flux.delSessionData('myData');
-```
-
-Remove an object from sessionStorage.
-
-#### Arguments
-* [`key`] \(*string*): Key of object to delete.
-
-#### Returns
-A boolean indicating if data was successfully removed from sessionStorage.
-
-
-### .clearAppData()
-
-> Clear all app data saved in session storage
+> Clear all app data stored in state.
 
 ```javascript
 Flux.clearAppData();
@@ -376,157 +307,15 @@ Flux.clearAppData();
 Flux.clearAppData();
 ```
 
-Removes all app related data from sessionStorage.
+Removes all app data from state.
 
 #### Returns
-A boolean indicating if app data was successfully removed from sessionStorage.
-
-
-## LocalStorage
-
-### .getLocalData(key)
-
-> Get data from local storage
-
-```javascript
-Flux.getLocalData('myData');
-```
-
-```typescript
-Flux.getLocalData('myData');
-```
-
-Get an object from localStorage.
-
-#### Arguments
-* [`key`] \(*string*): Key of object to retrieve.
-
-#### Returns
-A value from local storage.
-
-
-### .setLocalData(key, value)
-
-> Set data in local storage
-
-```javascript
-Flux.setLocalData('myData', 'Hello World');
-```
-
-```typescript
-Flux.setLocalData('myData', 'Hello World');
-```
-
-Save an object to localStorage.
-
-#### Arguments
-* [`key`] \(*string*): Key to reference object.
-* [`value`] \(*any*): A value to save to LocalStorage. All objects will converted to a string before saving.
-
-#### Returns
-A boolean indicating if data was successfully saved in localStorage.
-
-
-### .delLocalData(key)
-
-> Remove data in local storage
-
-```javascript
-Flux.delLocalData('myData');
-```
-
-```typescript
-Flux.delLocalData('myData');
-```
-
-Remove an object from localStorage.
-
-#### Arguments
-* [`key`] \(*string*): Key of the object to remove.
-
-#### Returns
-A boolean indicating if data was successfully removed from LocalStorage.
-
-
-## Debug
-
-### .enableDebugger(toggle)
-
-> Toggle debugger
-
-```javascript
-Flux.enableDebugger(true);
-```
-
-```typescript
-Flux.enableDebugger(true);
-```
-
-Turn on the console debugger to display each action call and store changes. By default the framework has the debugger disabled.
-
-#### Arguments
-* [`toggle`] \(*boolean*): Enable or disable debugger. Default: true.
-
-
-### .debugLog(obj1 [, obj2, ..., objN])
-
-> Safely add debug logging
-
-```javascript
-Flux.debugLog('console log');
-```
-
-```typescript
-Flux.debugLog('console log');
-```
-
-Logs data in the console. Only logs when in debug mode.  Will also call the debugLogFnc method set in the config.
-
-#### Arguments
-* [`obj`] \(*any*): A list of JavaScript objects to output. The string representations of each of these objects are 
-appended together in the order listed and output.
-
-
-### .debugInfo(obj1 [, obj2, ..., objN])
-
-> Safely add info logging
-
-```javascript
-Flux.debugInfo('console info');
-```
-
-```typescript
-Flux.debugInfo('console info');
-```
-
-Logs informational messages to the console. Will also call the debugInfoFnc method set in the config.
-
-#### Arguments
-* [`obj`] \(*any*): A list of JavaScript objects to output. The string representations of each of these objects are appended together in the order listed and output.
-
-
-### .debugError(obj1 [, obj2, ..., objN])
-
-> Safely add error logging
-
-```javascript
-Flux.debugError('console error');
-```
-
-```typescript
-Flux.debugError('console error');
-```
-
-Logs errors in the console. Will also call the debugErrorFnc method set in the config.
-
-#### Arguments
-* [`obj`] \(*any*): A list of JavaScript objects to output. The string representations of each of these objects are 
-appended together in the order listed and output.
+A boolean indicating if app data was successfully removed.
 
 
 ## State
 
-### .getInitialState()
+### #getInitialState()
 
 > Returns initial state
 
@@ -542,3 +331,62 @@ Used for unit testing. Gets the initial state of the store.
 
 #### Returns
 The initial state of the store as an object.
+
+
+## Middleware
+
+### #addMiddleware(middleware)
+
+> Add middleware
+
+```javascript
+const loggerMiddleware: Logger = new Logger();
+Flux.addMiddleware([loggerMiddleware]);
+```
+
+```typescript
+const loggerMiddleware: Logger = new Logger();
+Flux.addMiddleware([loggerMiddleware]);
+```
+
+Adds middleware from the framework. Middleware modules will be processed in the order they are added.
+
+#### Arguments
+* [`middleware`] \(*object[]*): An array of middleware objects to add.
+
+
+### #clearMiddleware()
+
+> Remove all middleware
+
+```javascript
+Flux.clearMiddleware();
+```
+
+```typescript
+Flux.clearMiddleware();
+```
+
+Removes all middleware from the framework.
+
+#### Returns
+A boolean. True if the middleware has been successfully removed.
+
+
+### #removeMiddleware(middleware)
+
+> Remove middleware
+
+```javascript
+Flux.removeMiddleware(['logger']);
+```
+
+```typescript
+Flux.removeMiddleware(['logger']);
+```
+
+Removes middleware from the framework.
+
+#### Arguments
+* [`middleware`] \(*string[]*): An array of middleware names to add.
+

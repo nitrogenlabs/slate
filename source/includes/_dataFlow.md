@@ -3,15 +3,51 @@
 > Various ways to access store data.
 
 ```javascript
-
-```
-
-```typescript
-import {Arkham, Flux, FluxDebugLevel, FluxOptions, Store} from 'arkhamjs';
+import {Flux, Store} from 'arkhamjs';
 import * as React from 'react';
 import {AppActions} from '../actions/AppActions';
 import {AppConstants} from '../constants/AppConstants';
-import {AppStore} from '../stores/AppStore';
+
+export class AppView extends React.Component {
+  constructor(props) {
+    ...
+
+    // Bind methods
+    this.onAppTest = this.onAppTest.bind(this);
+  }
+  
+  componentWillMount() {
+    Flux.on(AppConstants.TEST, this.onAppTest);
+    ...
+  }
+  
+  onAppTest(data) {
+    // Solution 1
+    const myTest = Flux.getStore('app.test', ' default text');
+
+    // Solution 2
+    const myTest = data.test; // data.type = AppConstants.TEST
+    
+    ...
+  }
+
+  someMethod() {
+    // Solution 3
+    // Where someAction returns the Flux.dispatch for a 
+    // AppConstants.TEST action.
+    AppActions.someAction()
+      .then((data) => {
+        const myTest = data.test;
+      });
+  }
+  ...
+```
+
+```typescript
+import {Flux, FluxOptions, Store} from 'arkhamjs';
+import * as React from 'react';
+import {AppActions} from '../actions/AppActions';
+import {AppConstants} from '../constants/AppConstants';
 
 export class AppView extends React.Component {
   constructor(props) {
@@ -28,10 +64,10 @@ export class AppView extends React.Component {
   
   onAppTest(data): void {
     // Solution 1
-    const myTest = Flux.getStore('app.test', ' default text');
+    const myTest: string = Flux.getStore('app.test', ' default text');
 
     // Solution 2
-    const myTest = data.test; // data.type = AppConstants.TEST
+    const myTest: string = data.test; // data.type = AppConstants.TEST
     
     ...
   }
@@ -42,7 +78,7 @@ export class AppView extends React.Component {
     // AppConstants.TEST action.
     AppActions.someAction()
       .then((data) => {
-        const myTest = data.test;
+        const myTest: string = data.test;
       });
   }
   ...
