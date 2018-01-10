@@ -66,6 +66,8 @@ export class AppStore extends Store {
 
 ArkhamJS runs off of a single store object. That root store is then branched off to help organize your data. Each branch is a property in the root store object.
 
+![ArkhamJS store](./images/store-arkhamjs.png "ArkhamJS store")
+
 ### Constructing a store
 
 All stores should extend the `Store` class. There are three methods to focus on: `constructor`, `initialState`, and `onAction`.

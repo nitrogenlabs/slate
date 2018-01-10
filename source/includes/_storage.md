@@ -4,6 +4,8 @@ By default ArkhamJS does not use a persistent storage. All state data is stored 
 
 Persist storage is the continuance of data after its cause is removed. This means that the data survives after the process with which it was created has ended. For a data store to be considered persistent, it must write to non-volatile storage so when the app reloads, the previously saved data is still available.
 
+![ArkhamJS cache](./images/cache-arkhamjs.png "ArkhamJS cache")
+
 There are three official persistent stores available:
 
  * [@nlabs/arkhamjs-storage-browser](https://www.npmjs.com/package/@nlabs/arkhamjs-storage-browser) - Browser, local and session storage.

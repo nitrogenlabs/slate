@@ -18,12 +18,12 @@ All data is stored within a single store. The data can be accessed through all y
 
 ### Immutability
 
-To prevent object referencing, we use immutable objects. When a state changes in a ReactJS component, the state's property is not the only item that is changed, the item it references is also updated. To prevent passing around an object between different scopes, immutable objects give your data a one way update path.
+To maintain this singular source of truth, all data has a one way update path. Preventing leaks and data referencing snaking through the state tree. ArkhamJS ensures all objects in and out of the framework are immutable.  When a state changes, the value will not be be referenced.
 
 ### Cache
 
-Your single store can be persisted in a cache. Caches available are browser (local or session), React Native's AsyncStorage, and Node. While caching is optional, it can be very useful when saving state.
+Your single store can be persisted in a cache. Caches available are [browser](https://www.npmjs.com/package/@nlabs/arkhamjs-storage-browser) (local or session), [React Native](https://www.npmjs.com/package/@nlabs/arkhamjs-storage-native)'s AsyncStorage, and [NodeJS](https://www.npmjs.com/package/@nlabs/arkhamjs-storage-node). While caching is optional, it can be very useful when saving state.
 
 ### Debugger
 
-The most important factor in choosing a framework is how easy it is to build with it. And with building comes debugging. A detailed debugger is optional with the framework. When included, it will display any actions that come through the framework. Making the previous and new state visible to the developer. Great way to make your data transparent! Supported browsers: Chrome, Firefox, and Safari.
+The most important factor in choosing a framework is how easy it is to build with it. And with building comes debugging. A detailed debugging [logger](https://www.npmjs.com/package/@nlabs/arkhamjs-middleware-logger) is available with the framework. When included, it will display any actions that come through the framework. Making the previous and new state visible to the developer. Great way to make your data transparent! Supported browsers: Chrome, Firefox, and Safari.
