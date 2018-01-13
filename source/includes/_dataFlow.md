@@ -3,7 +3,7 @@
 > Various ways to access store data.
 
 ```javascript
-import {Flux, Store} from 'arkhamjs';
+import {Flux} from 'arkhamjs';
 import * as React from 'react';
 import {AppActions} from '../actions/AppActions';
 import {AppConstants} from '../constants/AppConstants';
@@ -18,6 +18,11 @@ export class AppView extends React.Component {
 
   componentWillMount() {
     Flux.on(AppConstants.TEST, this.onAppTest);
+    ...
+  }
+
+  componentWillUnmount() {
+    Flux.off(AppConstants.TEST, this.onAppTest);
     ...
   }
 
@@ -40,11 +45,18 @@ export class AppView extends React.Component {
         const myTest = data.test;
       });
   }
+
+  async anotherMethod() {
+    // Solution 4
+    // Using async/await you can obtain an action synchronously
+    const data = AppActions.someAction();
+    const myTest = data.test;
+  }
   ...
 ```
 
 ```typescript
-import {Flux, FluxOptions, Store} from 'arkhamjs';
+import {Flux, FluxAction, FluxOptions} from 'arkhamjs';
 import * as React from 'react';
 import {AppActions} from '../actions/AppActions';
 import {AppConstants} from '../constants/AppConstants';
@@ -62,7 +74,12 @@ export class AppView extends React.Component {
     ...
   }
 
-  onAppTest(data): void {
+  componentWillUnmount() {
+    Flux.off(AppConstants.TEST, this.onAppTest);
+    ...
+  }
+
+  onAppTest(data: FluxAction): void {
     // Solution 1
     const myTest: string = Flux.getStore('app.test', ' default text');
 
@@ -80,6 +97,13 @@ export class AppView extends React.Component {
       .then((data) => {
         const myTest: string = data.test;
       });
+  }
+
+  async anotherMethod(): Promise<void> {
+    // Solution 4
+    // Using async/await you can obtain an action synchronously
+    const data: FluxAction = AppActions.someAction();
+    const myTest: string = data.test;
   }
   ...
 }

@@ -52,6 +52,6 @@ Then with a module bundler like webpack that supports either CommonJS or ES2015 
 
 For the quickest way to get started, we setup a skeleton to get started. Get the latest version and have a sample site up within minutes!
 
- * [React](https://github.com/nitrogenlabs/arkhamjs-skeleton-react/archive/master.zip) 
+ * React [.zip](https://github.com/nitrogenlabs/arkhamjs-skeleton-react/archive/master.zip) [Documentation](https://github.com/nitrogenlabs/arkhamjs-skeleton-react) 
 
 The projects are complete with a pre-existing file structure, sample layout views, components, and even server setup with Webpack.
