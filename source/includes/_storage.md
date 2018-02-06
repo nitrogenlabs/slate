@@ -4,7 +4,7 @@ By default ArkhamJS does not use a persistent storage. All state data is stored 
 
 Persist storage is the continuance of data after its cause is removed. This means that the data survives after the process with which it was created has ended. For a data store to be considered persistent, it must write to non-volatile storage so when the app reloads, the previously saved data is still available.
 
-![ArkhamJS cache](./images/cache-arkhamjs.png "ArkhamJS cache")
+![ArkhamJS cache](./img/cache-arkhamjs.png "ArkhamJS cache")
 
 There are three official persistent stores available:
 
@@ -56,7 +56,7 @@ With so many ways of storing data, a custom storage plugin can be created to fit
  * **getStorageData** - Retrieves a key/value pair from storage.
  * **setStorageData** - Sets a key/value pair into storage.
 
-As long as these two methods are included, you can add as many helper functions as needed. For an in-depth example with options and static helper methods, you may take a look at the [arkhamjs-storage-browser](https://github.com/nitrogenlabs/arkhamjs-storage-browser/blob/master/src/BrowserStorage/BrowserStorage.ts) source code.
+As long as these two methods are included, you can add as many helper functions as needed. For an in-depth example with options and static helper methods, you may take a look at the [arkhamjs-storage-browser](https://github.com/nitrogenlabs/arkhamjs/blob/master/packages/arkhamjs-storage-browser/src/BrowserStorage/BrowserStorage.ts) source code.
 
 
 ### #getStorageData(key)
@@ -117,7 +117,7 @@ import {BrowserStorage} from '@nlabs/arkhamjs-storage-browser';
 const storage = new BrowserStorage({type: 'session'});
 
 // ArkhamJS configuration
-Flux.config({
+Flux.init({
   storage
 });
 ```
@@ -129,7 +129,7 @@ import {BrowserStorage} from '@nlabs/arkhamjs-storage-browser';
 const storage: BrowserStorage = new BrowserStorage({type: 'session'});
 
 // ArkhamJS configuration
-Flux.config({
+Flux.init({
   storage
 });
 ```
@@ -302,7 +302,7 @@ import {NativeStorage} from '@nlabs/arkhamjs-storage-native';
 const storage = new NativeStorage();
 
 // ArkhamJS configuration
-Flux.config({
+Flux.init({
   storage
 });
 ```
@@ -314,7 +314,7 @@ import {NativeStorage} from '@nlabs/arkhamjs-storage-native';
 const storage: NativeStorage = new NativeStorage();
 
 // ArkhamJS configuration
-Flux.config({
+Flux.init({
   storage
 });
 ```
@@ -435,7 +435,7 @@ const storage = new NodeStorage({
   });
 
 // ArkhamJS configuration
-Flux.config({
+Flux.init({
   storage
 });
 ```
@@ -458,7 +458,7 @@ const storage: NodeStorage = new NodeStorage({
   });
 
 // ArkhamJS configuration
-Flux.config({
+Flux.init({
   storage
 });
 ```

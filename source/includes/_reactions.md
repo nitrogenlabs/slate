@@ -9,4 +9,4 @@ This is where data updates are initiated. All updates are triggered by some time
 
 The view layer is created by React. React has a fast and concise rendering algorithm -- which was even further refined in React 16 with React Fiber. Making re-rendering isloated to only those components that need to be updated.
 
-![ArkhamJS ciew connection](./images/connection-arkhamjs.png "ArkhamJS view connection")
+![ArkhamJS ciew connection](./img/connection-arkhamjs.png "ArkhamJS view connection")

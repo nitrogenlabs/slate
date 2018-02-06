@@ -1,34 +1,38 @@
 # Methods
 
-## Configuration
+## Initialization configuration
 
-### #config(options)
+### #init(options)
 
-> Set configuration within root view component
+> Initialize and set configuration within root view component
 
 ```javascript
 import {BrowserStorage} from '@nlabs/arkhamjs-storage-browser';
 import {Flux} from 'arkhamjs';
+import {DemoStore} from '../stores/DemoStore';
 
 const env = 'development';
 const storage = new BrowserStorage({type: 'session'});
 
-Flux.config({
+Flux.init({
   name: 'MyApp',
-  storage
+  storage,
+  stores: [DemoStore]
 });
 ```
 
 ```typescript
 import {BrowserStorage} from '@nlabs/arkhamjs-storage-browser';
 import {Flux} from 'arkhamjs';
+import {DemoStore} from '../stores/DemoStore';
 
 const env: string = 'development';
 const storage: BrowserStorage = new BrowserStorage({type: 'session'});
 
-Flux.config({
+Flux.init({
   name: 'MyApp',
-  storage
+  storage,
+  stores: [DemoStore]
 });
 ```
 
@@ -38,6 +42,7 @@ Set configuration options.
 * [`options`] \(*object*): Configuration options.
   * **name** \(*string*) - Name of your app. Should not contain spaces. Is used as the session storage property for your cache. *Default: arkhamjs*
   * **storage** \(*object*) - Add a persistent storage for the app state.
+  * **stores** \(*Store[]*) - Initial store class(s) to add to Flux.
 
 #### Returns
 A promise with a null object.
@@ -266,7 +271,7 @@ import {AppStore} from '../stores/AppStore';
 Flux.registerStores([AppStore]);
 ```
 
-Registers stores with Flux. Use an array of classes to register multiple.
+Registers additional stores with Flux. Use an array of classes to register multiple. This method registers stores after the init method is called. For use with lazy loading of stores. Any stores that are to be added on initialization of the framework should be added to the options in the init method.
 
 #### Arguments
 * [`Class`] \(*Store[]*): The store class(s) to add to Flux.

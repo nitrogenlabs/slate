@@ -111,7 +111,7 @@ export class AppView extends React.Component {
 
 The most important part of an app is the dynamic data.
 
-![ArkhamJS data flow](./images/data-flow-arkhamjs.png "ArkhamJS data flow")
+![ArkhamJS data flow](./img/data-flow-arkhamjs.png "ArkhamJS data flow")
 
 ### Accessing Data
 

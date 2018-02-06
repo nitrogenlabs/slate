@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "deploy": "s3-deploy './build/**' --cwd './build/' --region us-east-1 --bucket docs.arkhamjs.io --gzip && cf-invalidate -- E3O6SF5JC1GGL1 *",
+    "lint": "tslint -c ./tslint.json -p ./tsconfig.json './src/**/*.{ts,tsx}'",
+    "prepublishOnly": "NODE_ENV=production npm test && npm run compile",
+    "pretest": "yarn lint",
+    "reset": "rm -rf node_modules yarn.lock && yarn",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "cloudfront-invalidate-cli": "^1.4.0",
+    "s3-deploy": "^0.9.0"
+  }
+}

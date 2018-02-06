@@ -57,7 +57,7 @@ There are two requirements for a custom middleware module, it must have a name a
  * **preDispatch** - Called before parsing through the stores.
  * **postDispatch** - Called after parsing through the stores but before an event is emitted.
 
-![ArkhamJS middleware](./images/middleware-arkhamjs.png "ArkhamJS middleware")
+![ArkhamJS middleware](./img/middleware-arkhamjs.png "ArkhamJS middleware")
 
 ## Logger
 
@@ -91,7 +91,7 @@ Logs actions to the console log after each dispatch. Tracking changes in the sta
 
 The logger also provides a way to wrap your console methods (log, warning, and error) to better facilitate enabling and disabling logging in console. Instead of forgotten logs or unnecessary error logging. You may also wrap your logs with a custom wrapper to send to analytics, add color, etc.
 
-![Loggert screenshot](./images/logger.png "Logger screenshot")
+![Loggert screenshot](./img/logger.png "Logger screenshot")
 
 
 ### Options
