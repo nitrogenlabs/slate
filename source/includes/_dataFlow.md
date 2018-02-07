@@ -16,7 +16,7 @@ export class AppView extends React.Component {
     this.onAppTest = this.onAppTest.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     Flux.on(AppConstants.TEST, this.onAppTest);
     ...
   }
@@ -69,7 +69,7 @@ export class AppView extends React.Component {
     this.onAppTest = this.onAppTest.bind(this);
   }
 
-  componentWillMount(): void {
+  componentDidMount(): void {
     Flux.on(AppConstants.TEST, this.onAppTest);
     ...
   }

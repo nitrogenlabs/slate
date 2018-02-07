@@ -203,7 +203,7 @@ export class AppView extends React.Component {
     this.onAppTest = this.onAppTest.bind(this);
   }
   
-  componentWillMount() {
+  componentDidMount() {
     // Add event listener for our action. Here we are
     // listening for the TEST action to be dispatched.
     // When triggered, will call method, onAppTest.
@@ -283,7 +283,7 @@ export class AppView extends React.Component {
     this.onAppTest = this.onAppTest.bind(this);
   }
   
-  componentWillMount(): void {
+  componentDidMount(): void {
     // Add event listener for our action. Here we are
     // listening for the TEST action to be dispatched.
     // When triggered, will call method, onAppTest.

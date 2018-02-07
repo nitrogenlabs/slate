@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "compile": "bundle exec middleman build --clean",
     "deploy": "s3-deploy './build/**' --cwd './build/' --region us-east-1 --bucket docs.arkhamjs.io --gzip && cf-invalidate -- E3O6SF5JC1GGL1 *",
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json './src/**/*.{ts,tsx}'",
     "prepublishOnly": "NODE_ENV=production npm test && npm run compile",

@@ -72,14 +72,14 @@ export class AppView extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // Add a listener for GET_ITEM. When the event is 
     // dispatched, the onGetItems method will be 
     // called.
     Flux.on(AppConstants.GET_ITEM, this.onGetItems);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     // Stop listening when the view is unmounted.
     Flux.off(AppConstants.GET_ITEM, this.onGetItems);
   }
@@ -113,14 +113,14 @@ export class AppView extends React.Component {
     };
   }
 
-  componentWillMount(): void {
+  componentDidMount(): void {
     // Add a listener for GET_ITEM. When the event is 
     // dispatched, the onGetItems method will be 
     // called.
     Flux.on(AppConstants.GET_ITEM, this.onGetItems);
   }
 
-  componentWillMount(): void {
+  componentWillUnmount(): void {
     // Stop listening when the view is unmounted.
     Flux.off(AppConstants.GET_ITEM, this.onGetItems);
   }
