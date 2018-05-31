@@ -5,73 +5,110 @@
 > Leading commas
 
 ```javascript
-// bad
-const story = [
-    once
-  , upon
-  , aTime
-];
-
-// good
+// Good
 const story = [
   once,
   upon,
   aTime
 ];
 
-// bad
+// Good
+const hero = {
+  firstName: 'Ada',
+  lastName: 'Lovelace',
+  birthYear: 1815,
+  superPower: 'computers'
+};
+
+// Bad
+const story = [
+    once
+  , upon
+  , aTime
+];
+
+// Bad
 const hero = {
     firstName: 'Ada'
   , lastName: 'Lovelace'
   , birthYear: 1815
   , superPower: 'computers'
 };
+```
 
-// good
-const hero = {
+```javascript--flow
+// Good
+const story: StoryType = [
+  once,
+  upon,
+  aTime
+];
+
+// Good
+const hero: HeroType = {
   firstName: 'Ada',
   lastName: 'Lovelace',
   birthYear: 1815,
   superPower: 'computers'
+};
+
+// Bad
+const story: StoryType = [
+    once
+  , upon
+  , aTime
+];
+
+// Bad
+const hero: HeroType = {
+    firstName: 'Ada'
+  , lastName: 'Lovelace'
+  , birthYear: 1815
+  , superPower: 'computers'
 };
 ```
 
 ```typescript
-// bad
-const story: StoryType = [
-    once
-  , upon
-  , aTime
-];
-
-// good
+// Good
 const story: StoryType = [
   once,
   upon,
   aTime
 ];
 
-// bad
-const hero: HeroType = {
-    firstName: 'Ada'
-  , lastName: 'Lovelace'
-  , birthYear: 1815
-  , superPower: 'computers'
-};
-
-// good
+// Good
 const hero: HeroType = {
   firstName: 'Ada',
   lastName: 'Lovelace',
   birthYear: 1815,
   superPower: 'computers'
+};
+
+// Bad
+const story: StoryType = [
+    once
+  , upon
+  , aTime
+];
+
+// Bad
+const hero: HeroType = {
+    firstName: 'Ada'
+  , lastName: 'Lovelace'
+  , birthYear: 1815
+  , superPower: 'computers'
 };
 ```
 
 * No leading commas.
 
-### ESLint
-`"comma-style": ["error", "last"]`
+> ESLint Rules
+
+```json
+{
+  "comma-style": ["error", "last"]
+}
+```
 
 
 ## Trailing comma
@@ -79,18 +116,7 @@ const hero: HeroType = {
 > Additional trailing commas
 
 ```javascript
-// bad
-const hero = {
-  firstName: 'Dana',
-  lastName: 'Scully',
-};
-
-const heroes = [
-  'Batman',
-  'Superman',
-];
-
-// good
+// Good
 const hero = {
   firstName: 'Dana',
   lastName: 'Scully'
@@ -101,16 +127,7 @@ const heroes = [
   'Superman'
 ];
 
-// bad
-const createHero = (
-  firstName,
-  lastName,
-  inventorOf,
-) => {
-  // does nothing
-}
-
-// good
+// Good
 const createHero = (
   firstName,
   lastName,
@@ -119,7 +136,7 @@ const createHero = (
   // does nothing
 }
 
-// good (note that a comma must not appear after a "rest" element)
+// Good (note that a comma must not appear after a "rest" element)
 const createHero = (
   firstName,
   lastName,
@@ -129,100 +146,204 @@ const createHero = (
   // does nothing
 }
 
-// bad
-createHero(
-  firstName,
-  lastName,
-  inventorOf,
-);
-
-// good
+// Good
 createHero(
   firstName,
   lastName,
   inventorOf
 );
 
-// good (note that a comma must not appear after a "rest" element)
+// Good (note that a comma must not appear after a "rest" element)
 createHero(
   firstName,
   lastName,
   inventorOf,
   ...heroArgs
+);
+
+// Bad
+const hero = {
+  firstName: 'Dana',
+  lastName: 'Scully',
+};
+
+const heroes = [
+  'Batman',
+  'Superman',
+];
+
+// Bad
+const createHero = (
+  firstName,
+  lastName,
+  inventorOf,
+) => {
+  // does nothing
+}
+
+// Bad
+createHero(
+  firstName,
+  lastName,
+  inventorOf,
+);
+```
+
+```javascript--flow
+interface Hero {
+  +firstName: string;
+  +lastName: string;
+}
+
+// Good
+const hero: Hero = {
+  firstName: 'Dana',
+  lastName: 'Scully'
+};
+
+const heroes: string[] = [
+  'Batman',
+  'Superman'
+];
+
+// Good
+const createHero = (
+  firstName,
+  lastName,
+  inventorOf
+): Hero => {
+  // does nothing
+}
+
+// Good (note that a comma must not appear after a "rest" element)
+const createHero = (
+  firstName,
+  lastName,
+  inventorOf,
+  ...heroArgs
+): Hero => {
+  // does nothing
+}
+
+// Good
+createHero(
+  firstName,
+  lastName,
+  inventorOf
+);
+
+// Good (note that a comma must not appear after a "rest" element)
+createHero(
+  firstName,
+  lastName,
+  inventorOf,
+  ...heroArgs
+);
+
+// Bad
+const hero: Hero = {
+  firstName: 'Dana',
+  lastName: 'Scully',
+};
+
+const heroes: string[] = [
+  'Batman',
+  'Superman',
+];
+
+// Bad
+const createHero = (
+  firstName,
+  lastName,
+  inventorOf,
+): Hero => {
+  // does nothing
+}
+
+// Bad
+createHero(
+  firstName,
+  lastName,
+  inventorOf,
 );
 ```
 
 ```typescript
-// bad
-const hero = {
-  firstName: 'Dana',
-  lastName: 'Scully',
-};
+interface Hero {
+  readonly firstName: string;
+  readonly lastName: string;
+}
 
-const heroes = [
-  'Batman',
-  'Superman',
-];
-
-// good
-const hero = {
+// Good
+const hero: Hero = {
   firstName: 'Dana',
   lastName: 'Scully'
 };
 
-const heroes = [
+const heroes: string[] = [
   'Batman',
   'Superman'
 ];
 
-// bad
-const createHero = (
-  firstName,
-  lastName,
-  inventorOf,
-) => {
-  // does nothing
-}
-
-// good
+// Good
 const createHero = (
   firstName,
   lastName,
   inventorOf
-) => {
+): Hero => {
   // does nothing
 }
 
-// good (note that a comma must not appear after a "rest" element)
+// Good (note that a comma must not appear after a "rest" element)
 const createHero = (
   firstName,
   lastName,
   inventorOf,
   ...heroArgs
-) => {
+): Hero => {
   // does nothing
 }
 
-// bad
-createHero(
-  firstName,
-  lastName,
-  inventorOf,
-);
-
-// good
+// Good
 createHero(
   firstName,
   lastName,
   inventorOf
 );
 
-// good (note that a comma must not appear after a "rest" element)
+// Good (note that a comma must not appear after a "rest" element)
 createHero(
   firstName,
   lastName,
   inventorOf,
   ...heroArgs
+);
+
+// Bad
+const hero: Hero = {
+  firstName: 'Dana',
+  lastName: 'Scully',
+};
+
+const heroes: string[] = [
+  'Batman',
+  'Superman',
+];
+
+// Bad
+const createHero = (
+  firstName,
+  lastName,
+  inventorOf,
+): Hero => {
+  // does nothing
+}
+
+// Bad
+createHero(
+  firstName,
+  lastName,
+  inventorOf,
 );
 ```
 
@@ -233,8 +354,10 @@ createHero(
 * Although transpilers, like Babel, will remove the additional trailing comma in the transpiled code, we should write better code and not rely on transpilers fixing incorrect code.
 * Git diffs may increase but our philosophy is better code, not smaller commits/reviews.
 
-### ESLint
-`"comma-dangle": ["error", "never"]`
+> ESLint Rules
 
-### TSLint
-`"trailing-comma": [true, {"multiline": "never", "singleline": "never", "esSpecCompliant": true}]`
+```json
+{
+  "comma-dangle": ["error", "never"]
+}
+```

@@ -5,65 +5,98 @@
 > Brackets
 
 ```javascript
-// bad
-if(test)
-  return false;
-
-// bad
-if(test) return false;
-
-// good
+// Good
 if(test) {
   return false;
 }
 
-// bad
-const foo = () => { return false; }
-
-// good
+// Good
 const bar = () => {
   return false;
 }
+
+// Bad
+if(test)
+  return false;
+
+// Bad
+if(test) return false;
+
+// Bad
+const foo = () => { return false; }
+```
+
+```javascript--flow
+// Good
+if(test) {
+  return false;
+}
+
+// Good
+const bar = () => {
+  return false;
+}
+
+// Bad
+if(test)
+  return false;
+
+// Bad
+if(test) return false;
+
+// Bad
+const foo = () => { return false; }
 ```
 
 ```typescript
-// bad
-if(test)
-  return false;
-
-// bad
-if(test) return false;
-
-// good
+// Good
 if(test) {
   return false;
 }
 
-// bad
-const foo = () => { return false; }
-
-// good
+// Good
 const bar = () => {
   return false;
 }
+
+// Bad
+if(test)
+  return false;
+
+// Bad
+if(test) return false;
+
+// Bad
+const foo = () => { return false; }
 ```
 
-* Use braces with all blocks. 
+* Use braces with all blocks.
 * All blocks should be multiline. This makes it easier to spot conditionals and nested functions when reviewing or adding to the block.
 
-### ESLint
-`"curly": "error"`
+> ESLint Rules
 
-### TSLint
-`"curly": true`
-
+```json
+{
+  "curly": "error"
+}
+```
 
 ## Else
 
 > Else if and else
 
 ```javascript
-// bad
+// Good
+if(test) {
+  thing1();
+  thing2();
+} else if(another) {
+  thing3();
+} else {
+  thing4();
+}
+
+// Bad
 if(test) {
   thing1();
   thing2();
@@ -74,20 +107,44 @@ else if(another) {
 else {
   thing4();
 }
+```
 
-// good
+```javascript--flow
+// Good
 if(test) {
   thing1();
   thing2();
 } else if(another) {
   thing3();
 } else {
+  thing4();
+}
+
+// Bad
+if(test) {
+  thing1();
+  thing2();
+}
+else if(another) {
+  thing3();
+}
+else {
   thing4();
 }
 ```
 
 ```typescript
-// bad
+// Good
+if(test) {
+  thing1();
+  thing2();
+} else if(another) {
+  thing3();
+} else {
+  thing4();
+}
+
+// Bad
 if(test) {
   thing1();
   thing2();
@@ -96,44 +153,32 @@ else if(another) {
   thing3();
 }
 else {
-  thing4();
-}
-
-// good
-if(test) {
-  thing1();
-  thing2();
-} else if(another) {
-  thing3();
-} else {
   thing4();
 }
 ```
 
 * If using multiline blocks with `if`, `else if`, and `else`, put `else if` and `else` on the same line as your block's closing brace.
 
-### ESLint
-`"brace-style": ["error", "1tbs", {"allowSingleLine": false}]`
+> ESLint Rules
 
-### TSLint
-`"brace-style": [true, "1tbs", {"allowSingleLine": false}]`
-
+```json
+{
+  "brace-style": [
+    "error",
+    "1tbs",
+    {
+      "allowSingleLine": false
+    }
+  ]
+}
+```
 
 ## Return statement
 
 > Return statement
 
 ```javascript
-// bad
-const foo = () => {
-  if(x) {
-    return x;
-  } else {
-    return y;
-  }
-};
-
-// good
+// Good
 const foo = () => {
   if(x) {
     return x;
@@ -142,7 +187,36 @@ const foo = () => {
   return y;
 };
 
-// bad
+// Good - consolidate if possible. Explicitly return null.
+const cats = () => {
+  if(x) {
+    return x;
+  } else if(y) {
+    return y;
+  }
+
+  return null;
+};
+
+// Good - combine condition if possible
+const dogs = (x) => {
+  if(x || z) {
+    return y;
+  }
+
+  return z;
+};
+
+// Bad
+const foo = () => {
+  if(x) {
+    return x;
+  } else {
+    return y;
+  }
+};
+
+// Bad
 const cats () => {
   if(x) {
     return x;
@@ -153,7 +227,7 @@ const cats () => {
   }
 };
 
-// bad
+// Bad
 const cats = () => {
   if(x) {
     return x;
@@ -164,18 +238,7 @@ const cats = () => {
   }
 }
 
-// good - consolidate if possible. Explicitly return null.
-const cats = () => {
-  if(x) {
-    return x;
-  } else if(y) {
-    return y;
-  }
-
-  return null;
-};
-
-// bad
+// Bad
 const dogs = (x) => {
   if(x) {
     if(z) {
@@ -185,28 +248,10 @@ const dogs = (x) => {
     return z;
   }
 };
-
-// good - combine condition if possible
-const dogs = (x) => {
-  if(x || z) {
-    return y;
-  }
-
-  return z;
-};
 ```
 
-```typescript
-// bad
-const foo = (): string => {
-  if(x) {
-    return x;
-  } else {
-    return y;
-  }
-};
-
-// good
+```javascript--flow
+// Good
 const foo = (): string => {
   if(x) {
     return x;
@@ -215,7 +260,36 @@ const foo = (): string => {
   return y;
 };
 
-// bad
+// Good - consolidate if possible. Explicitly return null.
+const cats = (): string => {
+  if(x) {
+    return x;
+  } else if(y) {
+    return y;
+  }
+
+  return null;
+};
+
+// Good - combine condition if possible
+const dogs = (x: string): string => {
+  if(x || z) {
+    return y;
+  }
+
+  return z;
+};
+
+// Bad
+const foo = (): string => {
+  if(x) {
+    return x;
+  } else {
+    return y;
+  }
+};
+
+// Bad
 const cats (): string => {
   if(x) {
     return x;
@@ -226,7 +300,7 @@ const cats (): string => {
   }
 };
 
-// bad
+// Bad
 const cats = (): string => {
   if(x) {
     return x;
@@ -237,7 +311,29 @@ const cats = (): string => {
   }
 }
 
-// good - consolidate if possible. Explicitly return null.
+// Bad
+const dogs = (x: string): string => {
+  if(x) {
+    if(z) {
+      return y;
+    }
+  } else {
+    return z;
+  }
+};
+```
+
+```typescript
+// Good
+const foo = (): string => {
+  if(x) {
+    return x;
+  }
+
+  return y;
+};
+
+// Good - consolidate if possible. Explicitly return null.
 const cats = (): string => {
   if(x) {
     return x;
@@ -248,7 +344,47 @@ const cats = (): string => {
   return null;
 };
 
-// bad
+// Good - combine condition if possible
+const dogs = (x: string): string => {
+  if(x || z) {
+    return y;
+  }
+
+  return z;
+};
+
+// Bad
+const foo = (): string => {
+  if(x) {
+    return x;
+  } else {
+    return y;
+  }
+};
+
+// Bad
+const cats (): string => {
+  if(x) {
+    return x;
+  }
+
+  if(y) {
+    return y;
+  }
+};
+
+// Bad
+const cats = (): string => {
+  if(x) {
+    return x;
+  } else {
+    if(y) {
+      return y;
+    }
+  }
+}
+
+// Bad
 const dogs = (x: string): string => {
   if(x) {
     if(z) {
@@ -258,20 +394,16 @@ const dogs = (x: string): string => {
     return z;
   }
 };
-
-// good - combine condition if possible
-const dogs = (x: string): string => {
-  if(x || z) {
-    return y;
-  }
-
-  return z;
-};
 ```
 
 * If an if block always executes a return statement, the subsequent else block is unnecessary.
 * A return in an else if block following an if block that contains a return can be separated into multiple if blocks. 
 * Always return. The end of a block should return a variable or null unless the block returns void. 
 
-### ESLint
-`"no-else-return": "error"`
+> ESLint Rules
+
+```json
+{
+  "no-else-return": "error"
+}
+```

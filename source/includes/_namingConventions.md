@@ -5,81 +5,94 @@
 > Be descriptive
 
 ```javascript
-// bad
-const q = 'test';
-
-// good
+// Good
 const query = 'test';
+
+// Bad
+const q = 'test';
+```
+
+```javascript--flow
+// Good
+const query: string = 'test';
+
+// Bad
+const q: string = 'test';
 ```
 
 ```typescript
-// bad
-const q: string = 'test';
-
-// good
+// Good
 const query: string = 'test';
+
+// Bad
+const q: string = 'test';
 ```
 
 * Avoid single letter names. Be descriptive with your naming.
+* Minimum of at least 2 characters. This prevents single letter names but does not exclude names such as 'id'.
 
-### ESLint
+> ESLint Rules
 
-`"id-length": "error"`
-
+```json
+{
+  "id-length": ["error", 2]
+}
+```
 
 ## camelCase
 
 > camelCase
 
 ```javascript
-// bad
+// Good
+const thisIsMyObject = {};
+const thisIsMyFunction = () => {}
+
+// Bad
 const OBJEcttsssss = {};
 const this_is_my_object = {};
 const c = () => {}
-
-// good
-const thisIsMyObject = {};
-const thisIsMyFunction = () => {}
 ```
 
-```typescript
-// bad
+```javascript--flow
+// Good
+const thisIsMyObject: object = {};
+const thisIsMyFunction = () => {}
+
+// Bad
 const OBJEcttsssss: object = {};
 const this_is_my_object: object = {};
 const c = () => {}
+```
 
-// good
+```typescript
+// Good
 const thisIsMyObject: object = {};
 const thisIsMyFunction = () => {}
+
+// Bad
+const OBJEcttsssss: object = {};
+const this_is_my_object: object = {};
+const c = () => {}
 ```
 
 * Use camelCase when naming objects, functions, and instances. 
 * Use camelCase when naming properties unless you need to send an object using another format (ie. an API).
 
-### ESLint
+> ESLint Rules
 
-`"camelcase": ["error", {properties: "never"}]`
-
-### TSLint
-
-`"variable-name": [true, "ban-keywords", "check-format"`
-
+```json
+{
+  "camelcase": ["error", {"properties": "never"}]
+}
+```
 
 ## PascalCase
 
 > PascalCase
 
 ```javascript
-// bad
-const user = (options) => {
-  this.name = options.name;
-}
-
-const bad = new user({
-  name: 'nope',
-});
-
-// good
+// Good
 class User {
   constructor(options) {
     this.name = options.name;
@@ -89,19 +102,19 @@ class User {
 const good = new User({
   name: 'yup',
 });
-```
 
-```typescript
-// bad
-const user = (options: object) => {
+// Bad
+const user = (options) => {
   this.name = options.name;
 }
 
 const bad = new user({
   name: 'nope',
 });
+```
 
-// good
+```javascript--flow
+// Good
 class User {
   name: string;
 
@@ -113,62 +126,118 @@ class User {
 const good: User = new User({
   name: 'yup',
 });
+
+// Bad
+const user = (options: object) => {
+  this.name = options.name;
+}
+
+const bad = new user({
+  name: 'nope',
+});
 ```
 
-* Use PascalCase only when naming constructors or classes. 
+```typescript
+// Good
+class User {
+  name: string;
 
-### ESLint
+  constructor(options: object) {
+    this.name = options.name;
+  }
+}
 
-`"new-cap": "error"`
+const good: User = new User({
+  name: 'yup',
+});
 
+// Bad
+const user = (options: object) => {
+  this.name = options.name;
+}
+
+const bad = new user({
+  name: 'nope',
+});
+```
+
+* Use PascalCase only when naming constructors or classes.
+
+> ESLint Rules
+
+```json
+{
+  "new-cap": "error"
+}
+```
 
 ## Underscores
 
 > Underscores
 
 ```javascript
-// bad
+// Good
+this.firstName = 'Panda';
+
+// Bad
 this.__firstName__ = 'Panda';
 this.firstName_ = 'Panda';
 this._firstName = 'Panda';
+```
 
-// good
+```javascript--flow
+// Good
 this.firstName = 'Panda';
+
+// Bad
+this.__firstName__ = 'Panda';
+this.firstName_ = 'Panda';
+this._firstName = 'Panda';
 ```
 
 ```typescript
-// bad
+// Good
+this.firstName = 'Panda';
+
+// Bad
 this.__firstName__ = 'Panda';
 this.firstName_ = 'Panda';
 this._firstName = 'Panda';
-
-// good
-this.firstName = 'Panda';
 ```
 
 * Do not use trailing or leading underscores. 
 * JavaScript does not have the concept of privacy in terms of properties or methods. Although a leading underscore is a common convention to mean "private", in fact, these properties are fully public, and as such, are part of your public API contract. This convention might lead developers to wrongly think that a change won't count as breaking, or that tests aren't needed. tl;dr: if you want something to be "private", it must not be observably present.
 
-### ESLint
+> ESLint Rules
 
-`"no-underscore-dangle": ["error", {"enforceInMethodNames": true}]`
-
+```json
+{
+  "no-underscore-dangle": ["error", {"enforceInMethodNames": true}]
+}
+```
 
 ## this
 
 > this
 
 ```javascript
-// bad
+// Good
+function foo() {
+  return () => {
+    console.log(this);
+  };
+}
+
+// Bad
 function foo() {
   const self = this;
-  
+
   return function () {
     console.log(self);
   };
 }
 
-// bad
+// Bad
 function foo() {
   const that = this;
 
@@ -176,110 +245,160 @@ function foo() {
     console.log(that);
   };
 }
+```
 
-// good
+```javascript--flow
+// Good
 function foo() {
   return () => {
     console.log(this);
+  };
+}
+
+// Bad
+function foo() {
+  const self = this;
+
+  return function () {
+    console.log(self);
+  };
+}
+
+// Bad
+function foo() {
+  const that = this;
+
+  return function () {
+    console.log(that);
   };
 }
 ```
 
 ```typescript
-// bad
+// Good
+function foo() {
+  return () => {
+    console.log(this);
+  };
+}
+
+// Bad
 function foo() {
   const self = this;
-  
+
   return function () {
     console.log(self);
   };
 }
 
-// bad
+// Bad
 function foo() {
   const that = this;
 
   return function () {
     console.log(that);
-  };
-}
-
-// good
-function foo() {
-  return () => {
-    console.log(this);
   };
 }
 ```
 
 * Don't save references to `this`. Use arrow functions or Function#bind.
 
-
 ## Acronyms
 
 > Acronyms
 
 ```javascript
-// bad
-import SmsContainer from './containers/SmsContainer';
+// Best
+import TextMessageContainer from './containers/TextMessageContainer';
 
-// bad
-const HttpRequests = [
+// Best
+const requests = [
   // ...
 ];
 
-// good
+// Good
 import SMSContainer from './containers/SMSContainer';
 
-// good
+// Good
 const HTTPRequests = [
   // ...
 ];
 
-// also good
+// Good
 const httpRequests = [
   // ...
 ];
 
-// best
+// Bad
+import SmsContainer from './containers/SmsContainer';
+
+// Bad
+const HttpRequests = [
+  // ...
+];
+```
+
+```javascript--flow
+// Best
 import TextMessageContainer from './containers/TextMessageContainer';
 
-// best
+// Best
 const requests = [
+  // ...
+];
+
+// Good
+import SMSContainer from './containers/SMSContainer';
+
+// Good
+const HTTPRequests = [
+  // ...
+];
+
+// Good
+const httpRequests = [
+  // ...
+];
+
+// Bad
+import SmsContainer from './containers/SmsContainer';
+
+// Bad
+const HttpRequests = [
   // ...
 ];
 ```
 
 ```typescript
-// bad
-import SmsContainer from './containers/SmsContainer';
+// Best
+import TextMessageContainer from './containers/TextMessageContainer';
 
-// bad
-const HttpRequests = [
+// Best
+const requests = [
   // ...
 ];
 
-// good
+// Good
 import SMSContainer from './containers/SMSContainer';
 
-// good
+// Good
 const HTTPRequests = [
   // ...
 ];
 
-// also good
+// Good
 const httpRequests = [
   // ...
 ];
 
-// best
-import TextMessageContainer from './containers/TextMessageContainer';
+// Bad
+import SmsContainer from './containers/SmsContainer';
 
-// best
-const requests = [
+// Bad
+const HttpRequests = [
   // ...
 ];
 ```
 
-* Acronyms and initialisms should always be all capitalized, or all lowercased.
+* Acronyms and initials should always be all capitalized, or all lowercase.
 * Names are for readability, not to appease a computer algorithm.

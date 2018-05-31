@@ -1,12 +1,13 @@
 ---
-title: Javascript Style Guide
+title: StyleGuide JS
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - javascript
-  - typescript
+  - javascript: Javascript
+  - javascript--flow: Flow
+  - typescript: Typescript
 
 toc_footers:
-  - <a href='https://nitrogenlabs.com'>Copyright &copy; 2017 Nitrogen Labs, Inc.</a>
+  - <a href='https://nitrogenlabs.com'>Copyright &copy; 2018 Nitrogen Labs, Inc.</a>
 
 includes:
   - introduction 

@@ -5,17 +5,7 @@
 > Always use class
 
 ```javascript
-// bad
-function Queue(contents = []) {
-  this.queue = [...contents];
-}
-Queue.prototype.pop = function () {
-  const value = this.queue[0];
-  this.queue.splice(0, 1);
-  return value;
-};
-
-// good
+// Good
 class Queue {
   constructor(contents = []) {
     this.queue = [...contents];
@@ -26,10 +16,56 @@ class Queue {
     return value;
   }
 }
+
+// Bad
+function Queue(contents = []) {
+  this.queue = [...contents];
+}
+Queue.prototype.pop = function () {
+  const value = this.queue[0];
+  this.queue.splice(0, 1);
+  return value;
+};
+```
+
+```javascript--flow
+// Good
+class Queue {
+  constructor(contents = []) {
+    this.queue: string[] = [...contents];
+  }
+  pop(): string {
+    const value = this.queue[0];
+    this.queue.splice(0, 1);
+    return value;
+  }
+}
+
+// Bad
+function Queue(contents = []) {
+  this.queue = [...contents];
+}
+Queue.prototype.pop = function () {
+  const value = this.queue[0];
+  this.queue.splice(0, 1);
+  return value;
+};
 ```
 
 ```typescript
-// bad
+// Good
+class Queue {
+  constructor(contents = []) {
+    this.queue: string[] = [...contents];
+  }
+  pop(): string {
+    const value = this.queue[0];
+    this.queue.splice(0, 1);
+    return value;
+  }
+}
+
+// Bad
 function Queue(contents = []) {
   this.queue = [...contents];
 }
@@ -38,18 +74,6 @@ Queue.prototype.pop = function () {
   this.queue.splice(0, 1);
   return value;
 };
-
-// good
-class Queue {
-  constructor(contents = []) {
-    this.queue = [...contents];
-  }
-  pop() {
-    const value = this.queue[0];
-    this.queue.splice(0, 1);
-    return value;
-  }
-}
 ```
 
 * Always use class. Avoid manipulating prototype directly.
@@ -61,7 +85,14 @@ class Queue {
 > Inheritance
 
 ```javascript
-// bad
+// Good
+class PeekableQueue extends Queue {
+  peek() {
+    return this.queue[0];
+  }
+}
+
+// Bad
 const inherits = require('inherits');
 function PeekableQueue(contents) {
   Queue.apply(this, contents);
@@ -70,17 +101,36 @@ inherits(PeekableQueue, Queue);
 PeekableQueue.prototype.peek = function () {
   return this.queue[0];
 };
+```
 
-// good
+```javascript--flow
+// Good
 class PeekableQueue extends Queue {
-  peek() {
+  peek(): string {
     return this.queue[0];
   }
 }
+
+// Bad
+const inherits = require('inherits');
+function PeekableQueue(contents) {
+  Queue.apply(this, contents);
+}
+inherits(PeekableQueue, Queue);
+PeekableQueue.prototype.peek = function () {
+  return this.queue[0];
+};
 ```
 
 ```typescript
-// bad
+// Good
+class PeekableQueue extends Queue {
+  peek(): string {
+    return this.queue[0];
+  }
+}
+
+// Bad
 const inherits = require('inherits');
 function PeekableQueue(contents) {
   Queue.apply(this, contents);
@@ -89,13 +139,6 @@ inherits(PeekableQueue, Queue);
 PeekableQueue.prototype.peek = function () {
   return this.queue[0];
 };
-
-// good
-class PeekableQueue extends Queue {
-  peek() {
-    return this.queue[0];
-  }
-}
 ```
 
 * Use extends for inheritance.
@@ -107,21 +150,7 @@ class PeekableQueue extends Queue {
 > Return this
 
 ```javascript
-// bad
-Jedi.prototype.jump = function() {
-  this.jumping = true;
-  return true;
-};
-
-Jedi.prototype.setHeight = function(height) {
-  this.height = height;
-};
-
-const luke = new Jedi();
-luke.jump(); // => true
-luke.setHeight(20); // => undefined
-
-// good
+// Good
 class Jedi {
   jump() {
     this.jumping = true;
@@ -136,24 +165,24 @@ class Jedi {
 
 const luke = new Jedi();
 luke.jump().setHeight(20);
-```
 
-```typescript
-// bad
-Jedi.prototype.jump = function(): boolean {
+// Bad
+Jedi.prototype.jump = function() {
   this.jumping = true;
   return true;
 };
 
-Jedi.prototype.setHeight = function(height: number): void {
+Jedi.prototype.setHeight = function(height) {
   this.height = height;
 };
 
-const luke: Jedi = new Jedi();
+const luke = new Jedi();
 luke.jump(); // => true
 luke.setHeight(20); // => undefined
+```
 
-// good
+```javascript--flow
+// Good
 class Jedi {
   jump(): Jedi {
     this.jumping = true;
@@ -168,10 +197,55 @@ class Jedi {
 
 const luke: Jedi = new Jedi();
 luke.jump().setHeight(20);
+
+// Bad
+Jedi.prototype.jump = function(): boolean {
+  this.jumping = true;
+  return true;
+};
+
+Jedi.prototype.setHeight = function(height: number): void {
+  this.height = height;
+};
+
+const luke: Jedi = new Jedi();
+luke.jump(); // => true
+luke.setHeight(20); // => undefined
+```
+
+```typescript
+// Good
+class Jedi {
+  jump(): Jedi {
+    this.jumping = true;
+    return this;
+  }
+
+  setHeight(height: number): Jedi {
+    this.height = height;
+    return this;
+  }
+}
+
+const luke: Jedi = new Jedi();
+luke.jump().setHeight(20);
+
+// Bad
+Jedi.prototype.jump = function(): boolean {
+  this.jumping = true;
+  return true;
+};
+
+Jedi.prototype.setHeight = function(height: number): void {
+  this.height = height;
+};
+
+const luke: Jedi = new Jedi();
+luke.jump(); // => true
+luke.setHeight(20); // => undefined
 ```
 
 * Methods can return `this` to help with method chaining.
-
 
 ## Overriding methods
 
@@ -193,17 +267,33 @@ class Jedi {
 }
 ```
 
+```javascript--flow
+class Jedi {
+  constructor(options = {}) {
+    this.name = options.name || 'no name';
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  toString(): string {
+    return `Jedi - ${this.getName()}`;
+  }
+}
+```
+
 ```typescript
 class Jedi {
   constructor(options = {}) {
     this.name = options.name || 'no name';
   }
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
-  toString() {
+  toString(): string {
     return `Jedi - ${this.getName()}`;
   }
 }
@@ -211,13 +301,27 @@ class Jedi {
 
 * It's okay to write a custom `toString()` method, just make sure it works successfully and causes no side effects.
 
-
 ## Empty constructors
 
 > Empty constructors
 
 ```javascript
-// bad
+// Good
+class Jedi {
+  getName() {
+    return this.name;
+  }
+}
+
+// Good
+class Rey extends Jedi {
+  constructor(...args) {
+    super(...args);
+    this.name = 'Rey';
+  }
+}
+
+// Bad
 class Jedi {
   constructor() {}
 
@@ -226,31 +330,64 @@ class Jedi {
   }
 }
 
-// good
+// Bad - No need to redefine the constructor if empty
+class Rey extends Jedi {
+  constructor(...args) {
+    super(...args);
+  }
+}
+```
+
+```javascript--flow
+// Good
 class Jedi {
   getName() {
     return this.name;
   }
 }
 
-// bad - No need to redefine the constructor if empty
-class Rey extends Jedi {
-  constructor(...args) {
-    super(...args);
-  }
-}
-
-// good
+// Good
 class Rey extends Jedi {
   constructor(...args) {
     super(...args);
     this.name = 'Rey';
+  }
+}
+
+// Bad
+class Jedi {
+  constructor() {}
+
+  getName() {
+    return this.name;
+  }
+}
+
+// Bad - No need to redefine the constructor if empty
+class Rey extends Jedi {
+  constructor(...args) {
+    super(...args);
   }
 }
 ```
 
 ```typescript
-// bad
+// Good
+class Jedi {
+  getName() {
+    return this.name;
+  }
+}
+
+// Good
+class Rey extends Jedi {
+  constructor(...args) {
+    super(...args);
+    this.name = 'Rey';
+  }
+}
+
+// Bad
 class Jedi {
   constructor() {}
 
@@ -259,43 +396,32 @@ class Jedi {
   }
 }
 
-// good
-class Jedi {
-  getName() {
-    return this.name;
-  }
-}
-
-// bad - No need to redefine the constructor if empty
+// Bad - No need to redefine the constructor if empty
 class Rey extends Jedi {
   constructor(...args) {
     super(...args);
-  }
-}
-
-// good
-class Rey extends Jedi {
-  constructor(...args) {
-    super(...args);
-    this.name = 'Rey';
   }
 }
 ```
 
-* Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary. 
+* Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary.
 
-### ESLint
-`"no-useless-constructor": "error"`
+> ESLint Rules
 
+```json
+{
+  "no-useless-constructor": "error"
+}
+```
 
 ## Duplicates
 
 > Duplicates
 
 ```javascript
-// bad
+// Good
 class Foo {
-  bar() {
+  foo() {
     return 1;
   }
 
@@ -304,9 +430,9 @@ class Foo {
   }
 }
 
-// good
+// Bad
 class Foo {
-  foo() {
+  bar() {
     return 1;
   }
 
@@ -316,25 +442,49 @@ class Foo {
 }
 ```
 
-```typescript
-// bad
+```javascript--flow
+// Good
 class Foo {
-  bar() {
+  foo(): number {
     return 1;
   }
 
-  bar() {
+  bar(): number {
     return 2;
   }
 }
 
-// good
+// Bad
 class Foo {
-  foo() {
+  bar(): number {
     return 1;
   }
 
-  bar() {
+  bar(): number {
+    return 2;
+  }
+}
+```
+
+```typescript
+// Good
+class Foo {
+  foo(): number {
+    return 1;
+  }
+
+  bar(): number {
+    return 2;
+  }
+}
+
+// Bad
+class Foo {
+  bar(): number {
+    return 1;
+  }
+
+  bar(): number {
     return 2;
   }
 }
@@ -343,21 +493,31 @@ class Foo {
 > No reassigning of classes
 
 ```javascript
-// bad
+// Bad
 class A { }
 A = 0;
 
-// bad
+// Bad
+A = 0;
+class A { }
+```
+
+```javascript--flow
+// Bad
+class A { }
+A = 0;
+
+// Bad
 A = 0;
 class A { }
 ```
 
 ```typescript
-// bad
+// Bad
 class A { }
 A = 0;
 
-// bad
+// Bad
 A = 0;
 class A { }
 ```
@@ -366,8 +526,11 @@ class A { }
 * Duplicate class member declarations will silently prefer the last one - having duplicates is almost certainly a bug.
 * Avoid modifying variables of class declarations.
 
-### ESLint
+> ESLint Rules
 
-`"no-dupe-class-members": "error"`
-
-`"no-class-assign": "error"`
+```json
+{
+  "no-class-assign": "error",
+  "no-dupe-class-members": "error"
+}
+```

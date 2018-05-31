@@ -9,41 +9,60 @@ Perform type coercion at the beginning of the statement.
 ```javascript
 // => this.reviewScore = 9;
 
-// bad
+// Good
+const totalScore = String(this.reviewScore);
+
+// Bad
 const totalScore = new String(this.reviewScore); // typeof totalScore is "object" not "string"
 
-// bad
+// Bad
 const totalScore = this.reviewScore + ''; // invokes this.reviewScore.valueOf()
 
-// bad
+// Bad
 const totalScore = this.reviewScore.toString(); // isn't guaranteed to return a string
+```
 
-// good
-const totalScore = String(this.reviewScore);
+```javascript--flow
+// => this.reviewScore = 9;
+
+// Good
+const totalScore: string = String(this.reviewScore);
+
+// Bad
+const totalScore: string = new String(this.reviewScore); // typeof totalScore is "object" not "string"
+
+// Bad
+const totalScore: string = this.reviewScore + ''; // invokes this.reviewScore.valueOf()
+
+// Bad
+const totalScore: string = this.reviewScore.toString(); // isn't guaranteed to return a string
 ```
 
 ```typescript
 // => this.reviewScore = 9;
 
-// bad
+// Good
+const totalScore: string = String(this.reviewScore);
+
+// Bad
 const totalScore: string = new String(this.reviewScore); // typeof totalScore is "object" not "string"
 
-// bad
+// Bad
 const totalScore: string = this.reviewScore + ''; // invokes this.reviewScore.valueOf()
 
-// bad
+// Bad
 const totalScore: string = this.reviewScore.toString(); // isn't guaranteed to return a string
-
-// good
-const totalScore: string = String(this.reviewScore);
 ```
 
 * Use String for parsing strings.
 
-### ESLint
+> ESLint Rules
 
-`"no-new-wrappers": "error"`
-
+```json
+{
+  "no-new-wrappers": "error"
+}
+```
 
 ## Numbers
 
@@ -52,69 +71,110 @@ const totalScore: string = String(this.reviewScore);
 ```javascript
 const inputValue = '4';
 
-// bad
-const val = new Number(inputValue);
-
-// bad
-const val = +inputValue;
-
-// bad
-const val = inputValue >> 0;
-
-// bad
-const val = parseInt(inputValue);
-
-// good
+// Good
 const val = Number(inputValue);
 
-// good
+// Good
 const val = parseInt(inputValue, 10);
+
+// Bad
+const val = new Number(inputValue);
+
+// Bad
+const val = +inputValue;
+
+// Bad
+const val = inputValue >> 0;
+
+// Bad
+const val = parseInt(inputValue);
+```
+
+```javascript--flow
+const inputValue: string = '4';
+
+// Good
+const val: number = Number(inputValue);
+
+// Good
+const val: number = parseInt(inputValue, 10);
+
+// Bad
+const val: number = new Number(inputValue);
+
+// Bad
+const val: number = +inputValue;
+
+// Bad
+const val: number = inputValue >> 0;
+
+// Bad
+const val: number = parseInt(inputValue);
 ```
 
 ```typescript
 const inputValue: string = '4';
 
-// bad
-const val: number = new Number(inputValue);
-
-// bad
-const val: number = +inputValue;
-
-// bad
-const val: number = inputValue >> 0;
-
-// bad
-const val: number = parseInt(inputValue);
-
-// good
+// Good
 const val: number = Number(inputValue);
 
-// good
+// Good
 const val: number = parseInt(inputValue, 10);
+
+// Bad
+const val: number = new Number(inputValue);
+
+// Bad
+const val: number = +inputValue;
+
+// Bad
+const val: number = inputValue >> 0;
+
+// Bad
+const val: number = parseInt(inputValue);
 ```
 
 * Use Number for type casting and parseInt always with a radix for parsing strings. 
 * If for whatever reason you are doing something wild and parseInt is your bottleneck and need to use Bitshift for performance reasons, leave a comment explaining why and what you're doing.
 
-### ESLint
+> ESLint Rules
 
-`"radix no-new-wrappers"`
-
-### TSLint
-
-`"no-construct": true`
-
+```json
+{
+  "radix": ["error", "as-needed"]
+}
+```
 
 > Explaining bitshift
 
 ```javascript
-// good
+// Good
 /**
 * parseInt was the reason my code was slow.
 * Bitshifting the String to coerce it to a
 * Number made it a lot faster.
 */
 const val = inputValue >> 0;
+```
+
+```javascript--flow
+// Good
+/**
+* parseInt was the reason my code was slow.
+* Bitshifting the String to coerce it to a
+* Number made it a lot faster.
+*/
+const val: number = inputValue >> 0;
+```
+
+```typescript
+// Good
+/**
+* parseInt was the reason my code was slow.
+* Bitshifting the String to coerce it to a
+* Number made it a lot faster.
+*/
+const val: number = inputValue >> 0;
 ```
 
 <aside>
@@ -124,7 +184,6 @@ Note: Be careful when using bitshift operations. Numbers are represented as 64-b
 2147483649 >> 0; // => -2147483647
 </aside>
 
-
 ## Booleans
 
 > Booleans
@@ -132,36 +191,49 @@ Note: Be careful when using bitshift operations. Numbers are represented as 64-b
 ```javascript
 const age = 0;
 
-// bad
-const hasAge = new Boolean(age);
+// Best
+const hasAge = !!age;
 
-// good
+// Good
 const hasAge = Boolean(age);
 
-// best
-const hasAge = !!age;
+// Bad
+const hasAge = new Boolean(age);
+```
+
+```javascript--flow
+const age: number = 0;
+
+// Best
+const hasAge: boolean = !!age;
+
+// Good
+const hasAge: boolean = Boolean(age);
+
+// Bad
+const hasAge: boolean = new Boolean(age);
 ```
 
 ```typescript
 const age: number = 0;
 
-// bad
-const hasAge: boolean = new Boolean(age);
+// Best
+const hasAge: boolean = !!age;
 
-// good
+// Good
 const hasAge: boolean = Boolean(age);
 
-// best
-const hasAge: boolean = !!age;
+// Bad
+const hasAge: boolean = new Boolean(age);
 ```
 
 * Use Boolean for parsing strings.
 * Use of 'not not' is better.
 
-### ESLint
+> ESLint Rules
 
-`"no-new-wrappers"`
-
-### TSLint
-
-`"no-construct": true`
+```json
+{
+  "no-new-wrappers": "error"
+}
+```

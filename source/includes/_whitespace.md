@@ -5,231 +5,316 @@
 > Tabs
 
 ```javascript
-// bad
+// Good
+const baz = () => {
+∙∙let name;
+}
+
+// Bad
 const foo = () => {
 ∙∙∙∙let name;
 }
 
-// bad
+// Bad
 const bar = () => {
 ∙let name;
 }
-
-// good
-const baz = () => {
-∙∙let name;
-}
 ```
 
-```typescript
-// bad
+```javascript--flow
+// Good
+const baz = () => {
+∙∙let name: string;
+}
+
+// Bad
 const foo = () => {
 ∙∙∙∙let name: string;
 }
 
-// bad
+// Bad
 const bar = () => {
 ∙let name: string;
 }
+```
 
-// good
+```typescript
+// Good
 const baz = () => {
 ∙∙let name: string;
+}
+
+// Bad
+const foo = () => {
+∙∙∙∙let name: string;
+}
+
+// Bad
+const bar = () => {
+∙let name: string;
 }
 ```
 
 * Use soft tabs, space character instead of an actual tab.
-* Set to 2 spaces. 
+* Set to 2 spaces.
 * This eases readability when reviewing code online and via diff clients.
 
-### ESLint
+> ESLint Rules
 
-`"indent": ["error", 2, {"SwitchCase": 1}]`
-
-`"no-mixed-spaces-and-tabs": "error"`
-
-### TSLint
-
-`"indent": [true, "spaces", 2]`
-
-`"ter-indent": [true, 2, {"SwitchCase": 1}]`
-
+```json
+{
+  "indent": ["error", 2, {"SwitchCase": 1}],
+  "no-mixed-spaces-and-tabs": "error"
+}
+```
 
 ## Lines
 
 > Lines
 
 ```javascript
-// bad - more than 2 consecutive newline characters and more than 1 at the EOF
+// Good
 export class es6 {↵
   // ...↵
   ↵
   ↵
-  ↵
   /// ...
 }↵
-↵
 ↵
 
-// good
+// Bad - more than 2 consecutive newline characters and more than 1 at the EOF
+export class es6 {↵
+  // ...↵
+  ↵
+  ↵
+  ↵
+  /// ...
+}↵
+↵
+↵
+```
+
+```javascript-flow
+// Good
 export class es6 {↵
   // ...↵
   ↵
   ↵
   /// ...
 }↵
+↵
+
+// Bad - more than 2 consecutive newline characters and more than 1 at the EOF
+export class es6 {↵
+  // ...↵
+  ↵
+  ↵
+  ↵
+  /// ...
+}↵
+↵
 ↵
 ```
 
 ```typescript
-// bad - more than 2 consecutive newline characters and more than 1 at the EOF
+// Good
 export class es6 {↵
   // ...↵
   ↵
   ↵
-  ↵
   /// ...
 }↵
-↵
 ↵
 
-// good
+// Bad - more than 2 consecutive newline characters and more than 1 at the EOF
 export class es6 {↵
   // ...↵
   ↵
   ↵
+  ↵
   /// ...
 }↵
+↵
 ↵
 ```
 
 * Excess whitespace takes up more of the screen.
 * Helps maintain a readable style in your codebase.
 
-### ESLint
+> ESLint Rules
 
-`"no-multiple-empty-lines": ["error", {"max": 2, "maxEOF": 1}]`
-
-### TSLint
-
-`"no-consecutive-blank-lines": [true, 2]`
-
+```json
+{
+  "no-multiple-empty-lines": [
+    "error",
+    {"max": 2, "maxEOF": 1}
+  ]
+}
+```
 
 ## Trailing
 
 > Trailing
 
-``` javascript
-// bad
+```javascript
+// Good
+let foo = 0;
+let baz = 5;
+
+// Bad
 let foo = 0;//•••••
 let baz = 5;//••
 //•••••
-
-// good
-let foo = 0;
-let baz = 5;
 ```
 
-``` typescript
-// bad
+```javascript--flow
+// Good
+let foo: number = 0;
+let baz: number = 5;
+
+// Bad
 let foo: number = 0;//•••••
 let baz: number = 5;//••
 //•••••
+```
 
-// good
+```typescript
+// Good
 let foo: number = 0;
 let baz: number = 5;
+
+// Bad
+let foo: number = 0;//•••••
+let baz: number = 5;//••
+//•••••
 ```
 
 * These white spaces offer no benefit.
 * Can be picked up by source control systems and flagged as diffs, causing frustration for developers.
 
-### ESLint
+> ESLint Rules
 
-`"no-trailing-spaces": "error"`
-
-### TSLint
-
-`"no-trailing-whitespace": true`
-
+```json
+{
+  "no-trailing-spaces": "error"
+}
+```
 
 ## Leading brace
 
 > Leading brace
 
 ```javascript
-// bad
-const test = ()=>{
-  console.log('test');
-}
-
-// good
+// Good
 const test = () => {
   console.log('test');
 }
 
-// bad
-if(isJedi){
-  console.log('May the force be with you!');
-}
-
-// good
+// Good
 if(isJedi) {
   console.log('May the force be with you!');
 }
 
-// bad
-dog.set('attr',{
+// Good
+dog.set('attr', {
   age: '1 year',
   breed: 'Bernese Mountain Dog',
 });
 
-// good
+// Bad
+const test = ()=>{
+  console.log('test');
+}
+
+// Bad
+if(isJedi){
+  console.log('May the force be with you!');
+}
+
+// Bad
+dog.set('attr',{
+  age: '1 year',
+  breed: 'Bernese Mountain Dog',
+});
+```
+
+```javascript--flow
+// Good
+const test = () => {
+  console.log('test');
+}
+
+// Good
+if(isJedi) {
+  console.log('test');
+}
+
+// Good
 dog.set('attr', {
+  age: '1 year',
+  breed: 'Bernese Mountain Dog',
+});
+
+// Bad
+const test = ()=>{
+  console.log('test');
+}
+
+// Bad
+if(isJedi){
+  console.log('test');
+}
+
+// Bad
+dog.set('attr',{
   age: '1 year',
   breed: 'Bernese Mountain Dog',
 });
 ```
 
 ```typescript
-// bad
-const test = ()=>{
-  console.log('test');
-}
-
-// good
+// Good
 const test = () => {
   console.log('test');
 }
 
-// bad
-if(isJedi){
-  console.log('test');
-}
-
-// good
+// Good
 if(isJedi) {
   console.log('test');
 }
 
-// bad
-dog.set('attr',{
+// Good
+dog.set('attr', {
   age: '1 year',
   breed: 'Bernese Mountain Dog',
 });
 
-// good
-dog.set('attr', {
+// Bad
+const test = ()=>{
+  console.log('test');
+}
+
+// Bad
+if(isJedi){
+  console.log('test');
+}
+
+// Bad
+dog.set('attr',{
   age: '1 year',
   breed: 'Bernese Mountain Dog',
 });
 ```
 
-* Place 1 space before the leading brace. 
+* Place 1 space before the leading brace.
 
-### ESLint
+> ESLint Rules
 
-`"space-before-blocks": ["error", "always"]`
+```json
+{
+  "space-before-blocks": ["error", "always"]
+}
+```
 
 
 ## Opening parenthesis
@@ -237,46 +322,68 @@ dog.set('attr', {
 > Opening parenthesis
 
 ```javascript
-// bad
-if(isJedi) {
-  fight ();
-}
-
-// good
+// Good
 if (isJedi) {
   fight();
 }
 
-// bad
+// Good
+const fight = () => {
+  console.log('Swooosh!');
+}
+
+// Bad
+if(isJedi) {
+  fight ();
+}
+
+// Bad
 const fight =() => {
   console.log ('Swooosh!');
 }
+```
 
-// good
+```javascript--flow
+// Good
+if(isJedi) {
+  fight();
+}
+
+// Good
 const fight = () => {
   console.log('Swooosh!');
+}
+
+// Bad
+if (isJedi) {
+  fight ();
+}
+
+// Bad
+const fight =() => {
+  console.log ('Swooosh!');
 }
 ```
 
 ```typescript
-// bad
-if (isJedi) {
-  fight ();
-}
-
-// good
+// Good
 if(isJedi) {
   fight();
 }
 
-// bad
-const fight =() => {
-  console.log ('Swooosh!');
-}
-
-// good
+// Good
 const fight = () => {
   console.log('Swooosh!');
+}
+
+// Bad
+if (isJedi) {
+  fight ();
+}
+
+// Bad
+const fight =() => {
+  console.log ('Swooosh!');
 }
 ```
 
@@ -284,103 +391,146 @@ const fight = () => {
 * This rule will maintain consistency through all scenarios including control statements (if, while etc.), functional calls, and argument lists.
 * Our philosophy is to not have exceptions. All rules should maintain consistency throughout the code. If no space before an opening parenthesis and function call, then no space between control statement and opening parenthesis.
 
-### ESLint
-`"keyword-spacing": ["error", {"before": true}]`
-
+> ESLint Rules
+```json
+{
+  "keyword-spacing": [
+    "error", 
+    {
+      "overrides": {
+        "if": {
+          "after": false
+        },
+        "for": {
+          "after": false
+        },
+        "while": {
+          "after": false
+        },
+        "switch": {
+          "after": false
+        },
+        "catch": {
+          "after": false
+        }
+      }
+    }
+  ]
+}
+```
 
 ## Operators
 
 > Operators
 
 ```javascript
-// bad
-const x=y+5;
-
-// good
+// Good
 const x = y + 5;
+
+// Bad
+const x=y+5;
+```
+
+```javascript--flow
+// Good
+const x: number = y + 5;
+
+// Bad
+const x: number=y+5;
 ```
 
 ```typescript
-// bad
-const x: number=y+5;
-
-// good
+// Good
 const x: number = y + 5;
+
+// Bad
+const x: number=y+5;
 ```
 
-* Set off operators with spaces. 
+* Set off operators with spaces.
 
-### ESLint
-`"space-infix-ops": "error"`
+> ESLint Rules
 
+```json
+{
+  "space-infix-ops": "error"
+}
+```
 
 ## EOF
 
 > End files with newline character
 
 ```javascript
-// bad - no newline character at the end
+// Good a single newline character at the end
+export class es6 {↵
+  // ...↵
+}↵
+
+// Bad - no newline character at the end
 export class es6 {↵
   // ...↵
 }
 
-// bad - more than a single newline character
+// Bad - more than a single newline character
 export class es6 {↵
   // ...↵
 }↵
 ↵
+```
 
-// good a single newline character at the end
+```javascript--flow
+// Good a single newline character at the end
 export class es6 {↵
   // ...↵
 }↵
+
+// Bad - no newline character at the end
+export class es6 {↵
+  // ...↵
+}
+
+// Bad - more than a single newline character
+export class es6 {↵
+  // ...↵
+}↵
+↵
 ```
 
 ```typescript
-// bad - no newline character at the end
+// Good a single newline character at the end
+export class es6 {↵
+  // ...↵
+}↵
+
+// Bad - no newline character at the end
 export class es6 {↵
   // ...↵
 }
 
-// bad - more than a single newline character
+// Bad - more than a single newline character
 export class es6 {↵
   // ...↵
 }↵
 ↵
-
-// good a single newline character at the end
-export class es6 {↵
-  // ...↵
-}↵
 ```
 
-* End files with a single newline character. 
+* End files with a single newline character.
 
-### ESLint
-`"eol-last": ["error", "always"]`
+> ESLint Rules
 
-### TSLint
-
-`"eofline": true`
-
+```json
+{
+  "eol-last": ["error", "always"]
+}
+```
 
 ## Long chains
 
 > Long chains
 
 ```javascript
-// bad
-$('#items').find('.selected').highlight().end().find('.open').updateCount();
-
-// bad
-$('#items').
-  find('.selected').
-    highlight().
-    end().
-  find('.open').
-    updateCount();
-
-// good
+// Good
 $('#items')
   .find('.selected')
     .highlight()
@@ -388,13 +538,7 @@ $('#items')
   .find('.open')
     .updateCount();
 
-// bad
-const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').classed('led', true)
-    .attr('width', (radius + margin) * 2).append('svg:g')
-    .attr('transform', `translate(${radius + margin},${radius + margin})`)
-    .call(tron.led);
-
-// good
+// Good
 const leds = stage.selectAll('.led')
   .data(data)
   .enter()
@@ -405,23 +549,70 @@ const leds = stage.selectAll('.led')
   .attr('transform', `translate(${radius + margin},${radius + margin})`)
   .call(tron.led);
 
-// good
+// Good
 const leds = stage.selectAll('.led').data(data);
+
+// Bad
+$('#items').find('.selected').highlight().end().find('.open').updateCount();
+
+// Bad
+$('#items').
+  find('.selected').
+    highlight().
+    end().
+  find('.open').
+    updateCount();
+
+// Bad
+const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').classed('led', true)
+    .attr('width', (radius + margin) * 2).append('svg:g')
+    .attr('transform', `translate(${radius + margin},${radius + margin})`)
+    .call(tron.led);
+```
+
+```javascript--flow
+// Good
+$('#items')
+  .find('.selected')
+    .highlight()
+    .end()
+  .find('.open')
+    .updateCount();
+
+// Good
+const leds = stage.selectAll('.led')
+  .data(data)
+  .enter()
+  .append('svg:svg')
+  .classed('led', true)
+  .attr('width', (radius + margin) * 2)
+  .append('svg:g')
+  .attr('transform', `translate(${radius + margin},${radius + margin})`)
+  .call(tron.led);
+
+// Good
+const leds = stage.selectAll('.led').data(data);
+
+// Bad
+$('#items').find('.selected').highlight().end().find('.open').updateCount();
+
+// Bad
+$('#items').
+  find('.selected').
+    highlight().
+    end().
+  find('.open').
+    updateCount();
+
+// Bad
+const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').classed('led', true)
+    .attr('width', (radius + margin) * 2).append('svg:g')
+    .attr('transform', `translate(${radius + margin},${radius + margin})`)
+    .call(tron.led);
 ```
 
 ```typescript
-// bad
-$('#items').find('.selected').highlight().end().find('.open').updateCount();
-
-// bad
-$('#items').
-  find('.selected').
-    highlight().
-    end().
-  find('.open').
-    updateCount();
-
-// good
+// Good
 $('#items')
   .find('.selected')
     .highlight()
@@ -429,13 +620,7 @@ $('#items')
   .find('.open')
     .updateCount();
 
-// bad
-const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').classed('led', true)
-    .attr('width', (radius + margin) * 2).append('svg:g')
-    .attr('transform', `translate(${radius + margin},${radius + margin})`)
-    .call(tron.led);
-
-// good
+// Good
 const leds = stage.selectAll('.led')
   .data(data)
   .enter()
@@ -446,33 +631,48 @@ const leds = stage.selectAll('.led')
   .attr('transform', `translate(${radius + margin},${radius + margin})`)
   .call(tron.led);
 
-// good
+// Good
 const leds = stage.selectAll('.led').data(data);
+
+// Bad
+$('#items').find('.selected').highlight().end().find('.open').updateCount();
+
+// Bad
+$('#items').
+  find('.selected').
+    highlight().
+    end().
+  find('.open').
+    updateCount();
+
+// Bad
+const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').classed('led', true)
+    .attr('width', (radius + margin) * 2).append('svg:g')
+    .attr('transform', `translate(${radius + margin},${radius + margin})`)
+    .call(tron.led);
 ```
 
-* Use indentation when using a method chain with more than 2. 
-* Use a leading dot, which emphasizes that the line is a method call, not a new statement. 
+* Use indentation when using a method chain with more than 2.
+* Use a leading dot, which emphasizes that the line is a method call, not a new statement.
 
-### ESLint
+> ESLint Rules
 
-`"newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }]`
-
-`"no-whitespace-before-property": "error"`
-
+```json
+{
+  "newline-per-chained-call": [
+    "error",
+    {"ignoreChainWithDepth": 2 }
+  ],
+  "no-whitespace-before-property": "error"
+}
+```
 
 ## Block statements
 
 > Block statements
 
 ```javascript
-// bad
-const isJedi = true;
-if(isJedi) {
-  return bar;
-}
-return baz;
-
-// good
+// Good
 const isJedi = true;
 
 if(isJedi) {
@@ -481,36 +681,36 @@ if(isJedi) {
 
 return baz;
 
-// bad
+// Good
 const obj = {
   foo() {
   },
+
   bar() {
-  },
+  }
 };
+
 return obj;
 
-// good
+// Bad
+const isJedi = true;
+if(isJedi) {
+  return bar;
+}
+return baz;
+
+// Bad
 const obj = {
   foo() {
   },
-
   bar() {
   },
 };
-
 return obj;
 ```
 
-```typescript
-// bad
-const isJedi: boolean = true;
-if(isJedi) {
-  return bar;
-}
-return baz;
-
-// good
+```javascript--flow
+// Good
 const isJedi: boolean = true;
 
 if(isJedi) {
@@ -519,7 +719,25 @@ if(isJedi) {
 
 return baz;
 
-// bad
+// Good
+class obj {
+  foo() {
+  },
+
+  bar() {
+  }
+}
+
+export obj;
+
+// Bad
+const isJedi: boolean = true;
+if(isJedi) {
+  return bar;
+}
+return baz;
+
+// Bad
 class obj {
   foo() {
   },
@@ -527,36 +745,81 @@ class obj {
   },
 }
 export obj;
+```
 
-// good
+```typescript
+// Good
+const isJedi: boolean = true;
+
+if(isJedi) {
+  return bar;
+}
+
+return baz;
+
+// Good
 class obj {
   foo() {
   },
 
   bar() {
-  },
+  }
 }
 
+export obj;
+
+// Bad
+const isJedi: boolean = true;
+if(isJedi) {
+  return bar;
+}
+return baz;
+
+// Bad
+class obj {
+  foo() {
+  },
+  bar() {
+  },
+}
 export obj;
 ```
 
 * A blank line should come before a block statement. This makes it easier to spot conditionals and nested functions.
 * Leave a blank line after blocks and before the next statement.
 
-
 ## Padding Blocks
 
 > Padding
 
 ```javascript
-// bad
+// Good
+const bar = () => {
+  console.log(foo);
+}
+
+// Good
+if(baz) {
+  console.log(qux);
+} else {
+  console.log(foo);
+}
+
+// Good
+class Foo {
+  constructor(bar) {
+    console.log(bar);
+  }
+}
+
+// Bad
 const bar = () => {
 
   console.log(foo);
 
 }
 
-// bad
+// Bad
 if(baz) {
 
   console.log(qux);
@@ -565,28 +828,54 @@ if(baz) {
 
 }
 
-// bad
+// Bad
 class Foo {
 
   constructor(bar) {
     console.log(bar);
   }
 }
+```
 
-// good
+```javascript--flow
+// Good
 const bar = () => {
   console.log(foo);
 }
 
-// good
+// Good
 if(baz) {
   console.log(qux);
 } else {
   console.log(foo);
 }
 
-// good
+// Good
 class Foo {
+  constructor(bar) {
+    console.log(bar);
+  }
+}
+
+// Bad
+const bar = () => {
+
+  console.log(foo);
+
+}
+
+// Bad
+if(baz) {
+
+  console.log(qux);
+} else {
+  console.log(foo);
+
+}
+
+// Bad
+class Foo {
+
   constructor(bar) {
     console.log(bar);
   }
@@ -594,193 +883,226 @@ class Foo {
 ```
 
 ```typescript
-// bad
+// Good
 const bar = () => {
-
   console.log(foo);
-
 }
 
-// bad
+// Good
 if(baz) {
-
   console.log(qux);
 } else {
   console.log(foo);
-
 }
 
-// bad
+// Good
 class Foo {
-
   constructor(bar) {
     console.log(bar);
   }
 }
 
-// good
+// Bad
 const bar = () => {
+
   console.log(foo);
+
 }
 
-// good
+// Bad
 if(baz) {
+
   console.log(qux);
 } else {
   console.log(foo);
+
 }
 
-// good
+// Bad
 class Foo {
+
   constructor(bar) {
     console.log(bar);
   }
 }
 ```
 
-* Do not pad your blocks with blank lines. 
+* Do not pad your blocks with blank lines.
 
-### ESLint
-`"padded-blocks": ["error", "never"]`
+> ESLint Rules
 
+```json
+{
+  "padded-blocks": ["error", "never"]
+}
+```
 
 ## Parentheses spacing
 
 > Parentheses spacing
 
 ```javascript
-// bad
-const bar = ( foo ) => {
-  return foo;
-}
-
-// good
+// Good
 const bar = (foo) => {
   return foo;
 }
 
-// bad
-if( isJedi ) {
+// Bad
+const bar = ( foo ) => {
+  return foo;
+}
+
+// Good
+if(isJedi) {
   console.log(isJedi);
 }
 
-// good
-if(isJedi) {
+// Bad
+if( isJedi ) {
   console.log(isJedi);
 }
 ```
 
-```typescript
-// bad
-const bar = ( foo: string ) => {
+```javascript--flow
+// Good
+const bar = (foo: string): string => {
   return foo;
 }
 
-// good
-const bar = (foo: string) => {
+// Good
+if(isJedi) {
+  console.log(isJedi);
+}
+
+// Bad
+const bar = ( foo: string ): string => {
   return foo;
 }
 
-// bad
+// Bad
 if( isJedi ) {
   console.log( isJedi );
 }
+```
 
-// good
+```typescript
+// Good
+const bar = (foo: string): string => {
+  return foo;
+}
+
+// Good
 if(isJedi) {
   console.log(isJedi);
+}
+
+// Bad
+const bar = ( foo: string ): string => {
+  return foo;
+}
+
+// Bad
+if( isJedi ) {
+  console.log( isJedi );
 }
 ```
 
 * Do not add spaces inside parentheses. 
 
-### ESLint
+> ESLint Rules
 
-`"space-in-parens": ["error", "never"]`
-
+```json
+{
+  "space-in-parens": ["error", "never"]
+}
+```
 
 ## Bracket spaces
 
 > Bracket spaces
 
 ```javascript
-// bad
-const foo = [ 1, 2, 3 ];
-console.log(foo[ 0 ]);
-
-// good
+// Good
 const foo = [1, 2, 3];
 console.log(foo[0]);
+
+// Bad
+const foo = [ 1, 2, 3 ];
+console.log(foo[ 0 ]);
+```
+
+```javascript--flow
+// Good
+const foo: number[] = [1, 2, 3];
+console.log(foo[0]);
+
+// Bad
+const foo: number[] = [ 1, 2, 3 ];
+console.log(foo[ 0 ]);
 ```
 
 ```typescript
-// bad
-const foo: number[] = [ 1, 2, 3 ];
-console.log(foo[ 0 ]);
-
-// good
+// Good
 const foo: number[] = [1, 2, 3];
 console.log(foo[0]);
+
+// Bad
+const foo: number[] = [ 1, 2, 3 ];
+console.log(foo[ 0 ]);
 ```
 
-* Do not add spaces inside brackets. 
+* Do not add spaces inside brackets.
 
-### ESLint
+> ESLint Rules
 
-`"array-bracket-spacing": ["error", "never"]`
-
-`"computed-property-spacing": ["error", "never"]`
-
-### TSLint
-
-`"array-bracket-spacing": [true, "never"]`
-
-`"ter-computed-property-spacing": [true, "never"]`
-
+```json
+{
+  "array-bracket-spacing": ["error", "never"],
+  "computed-property-spacing": ["error", "never"]
+}
+```
 
 ## Curly braces
 
 > Curly braces
 
 ```javascript
-// bad
-const foo = { clark: 'kent' };
-
-// good
+// Good
 const foo = {clark: 'kent'};
+
+// Bad
+const foo = { clark: 'kent' };
 ```
 
 ```typescript
-// bad
-const foo: object = { clark: 'kent' };
-
-// good
+// Good
 const foo: object = {clark: 'kent'};
+
+// Bad
+const foo: object = { clark: 'kent' };
 ```
 
 * Do not add spaces inside curly braces.
 
-### ESLint
+> ESLint Rules
 
-`"object-curly-spacing"`
-
-### TSLint
-
-`"object-curly-spacing": [true, "never"]`
-
+```json
+{
+  "object-curly-spacing": ["error", "never"]
+}
+```
 
 ## Long lines
 
 > Long lines
 
 ```javascript
-// bad
-const foo = jsonData && jsonData.foo && jsonData.foo.bar && jsonData.foo.bar.baz && jsonData.foo.bar.baz.quux && jsonData.foo.bar.baz.quux.xyzzy;
+// Best - consolidate lines if fit
+ApiUtils.ajax({method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' }})
+  .done(() => console.log('Congratulations!'))
+  .fail(() => console.log('You have failed this city.'));
 
-// bad
-ApiUtils.ajax({ method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' } }).done(() => console.log('Congratulations!')).fail(() => console.log('You have failed this city.'));
-
-// good
+// Good
 const foo = jsonData
   && jsonData.foo
   && jsonData.foo.bar
@@ -788,7 +1110,7 @@ const foo = jsonData
   && jsonData.foo.bar.baz.quux
   && jsonData.foo.bar.baz.quux.xyzzy;
 
-// good
+// Good
 ApiUtils.ajax({
   method: 'POST',
   url: 'https://nitrogenlabs.com/',
@@ -797,28 +1119,58 @@ ApiUtils.ajax({
   .done(() => console.log('Congratulations!'))
   .fail(() => console.log('You have failed this city.'));
 
-// better - consolidate lines if fit
+// Bad
+const foo = jsonData && jsonData.foo && jsonData.foo.bar && jsonData.foo.bar.baz && jsonData.foo.bar.baz.quux && jsonData.foo.bar.baz.quux.xyzzy;
+
+// Bad
+ApiUtils.ajax({ method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' } }).done(() => console.log('Congratulations!')).fail(() => console.log('You have failed this city.'));
+```
+
+```javascript--flow
+// Best - consolidate lines if fit
 ApiUtils.ajax({method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' }})
   .done(() => console.log('Congratulations!'))
   .fail(() => console.log('You have failed this city.'));
+
+// Good
+const foo: boolean = jsonData
+  && jsonData.foo
+  && jsonData.foo.bar
+  && jsonData.foo.bar.baz
+  && jsonData.foo.bar.baz.quux
+  && jsonData.foo.bar.baz.quux.xyzzy;
+
+// Good
+ApiUtils.ajax({
+  method: 'POST',
+  url: 'https://nitrogenlabs.com/',
+  data: { name: 'John' }
+})
+  .done(() => console.log('Congratulations!'))
+  .fail(() => console.log('You have failed this city.'));
+
+// Bad
+const foo: boolean = jsonData && jsonData.foo && jsonData.foo.bar && jsonData.foo.bar.baz && jsonData.foo.bar.baz.quux && jsonData.foo.bar.baz.quux.xyzzy;
+
+// Bad
+ApiUtils.ajax({ method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' } }).done(() => console.log('Congratulations!')).fail(() => console.log('You have failed this city.'));
 ```
 
 ```typescript
-// bad
-const foo = jsonData && jsonData.foo && jsonData.foo.bar && jsonData.foo.bar.baz && jsonData.foo.bar.baz.quux && jsonData.foo.bar.baz.quux.xyzzy;
+// Best - consolidate lines if fit
+ApiUtils.ajax({method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' }})
+  .done(() => console.log('Congratulations!'))
+  .fail(() => console.log('You have failed this city.'));
 
-// bad
-ApiUtils.ajax({ method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' } }).done(() => console.log('Congratulations!')).fail(() => console.log('You have failed this city.'));
-
-// good
-const foo = jsonData
+// Good
+const foo: boolean = jsonData
   && jsonData.foo
   && jsonData.foo.bar
   && jsonData.foo.bar.baz
   && jsonData.foo.bar.baz.quux
   && jsonData.foo.bar.baz.quux.xyzzy;
 
-// good
+// Good
 ApiUtils.ajax({
   method: 'POST',
   url: 'https://nitrogenlabs.com/',
@@ -827,10 +1179,11 @@ ApiUtils.ajax({
   .done(() => console.log('Congratulations!'))
   .fail(() => console.log('You have failed this city.'));
 
-// better - consolidate lines if fit
-ApiUtils.ajax({method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' }})
-  .done(() => console.log('Congratulations!'))
-  .fail(() => console.log('You have failed this city.'));
+// Bad
+const foo: boolean = jsonData && jsonData.foo && jsonData.foo.bar && jsonData.foo.bar.baz && jsonData.foo.bar.baz.quux && jsonData.foo.bar.baz.quux.xyzzy;
+
+// Bad
+ApiUtils.ajax({ method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: 'John' } }).done(() => console.log('Congratulations!')).fail(() => console.log('You have failed this city.'));
 ```
 
 * Avoid having lines of code that are longer than 120 characters (including whitespace).
@@ -839,115 +1192,156 @@ ApiUtils.ajax({method: 'POST', url: 'https://nitrogenlabs.com/', data: { name: '
 * Long lines may be unseen when reviewing code and can be easily overseen.
 * Eliminates the need to scroll horizontally when reviewing code in editors and online clients (ie. GitHub).
 
-### ESLint
-`"max-len": ["error", {"code": 120, "ignoreRegExpLiterals": true, "ignoreStrings": true, "ignoreTemplateLiterals": true, "ignoreUrls": true, "tabWidth": 2}]`
+> ESLint Rules
 
-### TSLint
-
-`"ter-max-len": [true, {"code": 120, "ignoreRegExpLiterals": true, "ignoreStrings": true, "ignoreTemplateLiterals": true,"ignoreUrls": true, "tabWidth": 2}]`
-
+```json
+{
+  "max-len": [
+    "error", {
+      "code": 120,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreUrls": true,
+      "tabWidth": 2
+    }
+  ]
+}
+```
 
 ## Block
 
 ```javascript
-// bad
+// Good
+const x = function () {};
+const y = function a() {};
+
+// Bad
 const f = function(){};
 const g = function (){};
 const h = function() {};
-
-// good
-const x = function () {};
-const y = function a() {};
 ```
 
 ```typescript
-// bad
+// Good
+const x = function () {};
+const y = function a() {};
+
+// Bad
 const f = (){};
 const g = function (){};
 const h = function() {};
-
-// good
-const x = function () {};
-const y = function a() {};
 ```
 
-* Spacing in a function signature. 
+* Spacing in a function signature.
 * Maintain consistency.
 
-### ESLint
-`"space-before-function-paren": ["error", "never"]`
+> ESLint Rules
 
-`"space-before-blocks": ["error", "always"]`
-
-### TSLint
-
-`"whitespace": [true, "check-decl", "check-operator", "check-preblock", "check-type", "check-typecast", "check-separator"]`
-
+```json
+{
+  "space-before-function-paren": [
+    "error",
+    {
+      "anonymous": "never",
+      "asyncArrow": "always",
+      "named": "never",
+    }
+  ],
+  "space-before-blocks": ["error", "always"]
+}
+```
 
 ## Multiline signatures
 
 ```javascript
-// bad
+// Good
+const foo = (
+  bar,
+  baz,
+  quux
+) => {
+  // ...
+}
+
+// Good
+console.log(
+  foo,
+  bar,
+  baz
+);
+
+// Bad
 const foo = (bar,
               baz,
               quux) => {
   // ...
 }
 
-// good
+// Bad
+console.log(foo,
+  bar,
+  baz);
+```
+
+```javascript--flow
+// Good
 const foo = (
   bar,
   baz,
-  quux,
+  quux
 ) => {
   // ...
 }
 
-// bad
-console.log(foo,
-  bar,
-  baz);
-
-// good
+// Good
 console.log(
   foo,
   bar,
-  baz,
+  baz
 );
+
+// Bad
+const foo = (bar,
+              baz,
+              quux) => {
+  // ...
+}
+
+// Bad
+console.log(foo,
+  bar,
+  baz);
 ```
 
 ```typescript
-// bad
+// Good
+const foo = (
+  bar,
+  baz,
+  quux
+) => {
+  // ...
+}
+
+// Good
+console.log(
+  foo,
+  bar,
+  baz
+);
+
+// Bad
 const foo = (bar,
               baz,
               quux) => {
   // ...
 }
 
-// good
-const foo = (
-  bar,
-  baz,
-  quux,
-) => {
-  // ...
-}
-
-// bad
+// Bad
 console.log(foo,
   bar,
   baz);
-
-// good
-console.log(
-  foo,
-  bar,
-  baz,
-);
 ```
 
 * Functions with multiline signatures, or invocations, should be indented just like every other multiline list in this guide: with each item on a line by itself, with a trailing comma on the last item.
-
-### TSLint
-
-`"align": [true, "elements", "members"]`

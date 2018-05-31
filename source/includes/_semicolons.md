@@ -3,76 +3,113 @@
 > Semicolons
 
 ```javascript
-// bad - raises exception
-const luke = {}
-const leia = {}
-[luke, leia].forEach(jedi => jedi.father = 'vader')
-
-// bad - raises exception
-const reaction = 'No! That\'s impossible!'
-(async () => {
-  // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
-  // ...
-}())
-
-// bad - returns `undefined` instead of the value on the next line - always happens when `return` is on a line by itself because of ASI!
-const foo = () => {
-  return
-    'search your feelings, you know it to be foo'
-}
-
-// good
+// Good
 const luke = {};
 const leia = {};
 [luke, leia].forEach((jedi) => jedi.father = 'vader');
 
-// good
+// Good
 const reaction = 'No! That\'s impossible!';
 (async () => {
   // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
   // ...
 }());
 
-// good
+// Good
 const foo = () => {
   return 'search your feelings, you know it to be foo';
 }
-```
 
-```typescript
-// bad - raises exception
-const luke: JediType = {}
-const leia: JediType = {}
-[luke, leia].forEach((jedi: JediType) => jedi.father = 'vader')
+// Bad - raises exception
+const luke = {}
+const leia = {}
+[luke, leia].forEach(jedi => jedi.father = 'vader')
 
-// bad - raises exception
-const reaction: string = 'No! That\'s impossible!'
+// Bad - raises exception
+const reaction = 'No! That\'s impossible!'
 (async () => {
   // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
   // ...
 }())
 
-// bad - returns `undefined` instead of the value on the next line - always happens when `return` is on a line by itself because of ASI!
-const foo = (): string => {
+// Bad - returns `undefined` instead of the value on the next line - always happens when `return` is on a line by itself because of ASI!
+const foo = () => {
   return
     'search your feelings, you know it to be foo'
 }
+```
 
-// good
-const luke: JediType = {};
-const leia: JediType = {};
-[luke, leia].forEach((jedi: JediType) => jedi.father = 'vader');
+```javascript--flow
+// Good
+const luke: Jedi = {};
+const leia: Jedi = {};
+[luke, leia].forEach((jedi: Jedi) => jedi.father = 'vader');
 
-// good
+// Good
 const reaction: string = 'No! That\'s impossible!';
 (async (): void => {
   // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
   // ...
 }());
 
-// good
+// Good
 const foo = (): string => {
   return 'search your feelings, you know it to be foo';
+}
+
+// Bad - raises exception
+const luke: Jedi = {}
+const leia: Jedi = {}
+[luke, leia].forEach((jedi: Jedi) => jedi.father = 'vader')
+
+// Bad - raises exception
+const reaction: string = 'No! That\'s impossible!'
+(async () => {
+  // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
+  // ...
+}())
+
+// Bad - returns `undefined` instead of the value on the next line - always happens when `return` is on a line by itself because of ASI!
+const foo = (): string => {
+  return
+    'search your feelings, you know it to be foo'
+}
+```
+
+```typescript
+// Good
+const luke: Jedi = {};
+const leia: Jedi = {};
+[luke, leia].forEach((jedi: Jedi) => jedi.father = 'vader');
+
+// Good
+const reaction: string = 'No! That\'s impossible!';
+(async (): void => {
+  // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
+  // ...
+}());
+
+// Good
+const foo = (): string => {
+  return 'search your feelings, you know it to be foo';
+}
+
+// Bad - raises exception
+const luke: Jedi = {}
+const leia: Jedi = {}
+[luke, leia].forEach((jedi: Jedi) => jedi.father = 'vader')
+
+// Bad - raises exception
+const reaction: string = 'No! That\'s impossible!'
+(async () => {
+  // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
+  // ...
+}())
+
+// Bad - returns `undefined` instead of the value on the next line - always happens when `return` is on a line by itself because of ASI!
+const foo = (): string => {
+  return
+    'search your feelings, you know it to be foo'
 }
 ```
 
@@ -81,20 +118,13 @@ const foo = (): string => {
 * Don't let Automatic Semicolon Insertion determine your semicolons, place them yourself to avoid bugs.
 * Bugs will also appear if concatenation of javascript files occur and/or minification.
 
-### ESLint
+> ESLint Rules
 
-`"semi": "error"`
-
-`"semi-spacing": "error"`
-
-`"no-extra-semi": "error"`
-
-`"no-unexpected-multiline": "error"`
-
-### TSLint
-
-`"semicolon": [true, "always"]`
-
-`"no-extra-semi": true`
-
-`"no-unexpected-multiline": true`
+```json
+{
+  "semi": ["error", "always"],
+  "semi-spacing": "error",
+  "no-extra-semi": "error",
+  "no-unexpected-multiline": "error"
+}
+```

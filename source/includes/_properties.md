@@ -10,43 +10,73 @@ const luke = {
   age: 28,
 };
 
-// bad
-const isJedi = luke['jedi'];
+// Best
+const {jedi: isJedi} = luke;
 
-// good
+// Good
 const isJedi = luke.jedi;
 
-// better
-const {jedi: isJedi} = luke;
+// Bad
+const isJedi = luke['jedi'];
 ```
 
-```typescript
+```javascript--flow
+interface Jedi {
+  +jedi: boolean;
+  +age: number;
+}
+
 const luke: Jedi = {
   jedi: true,
   age: 28,
 };
 
-// bad
-const isJedi: boolean = luke['jedi'];
+// Best
+const {jedi: isJedi} = luke;
 
-// good
+// Good
 const isJedi: boolean = luke.jedi;
 
-// better
+// Bad
+const isJedi: boolean = luke['jedi'];
+```
+
+```typescript
+interface Jedi {
+  readonly jedi: boolean;
+  readonly age: number;
+}
+
+const luke: Jedi = {
+  jedi: true,
+  age: 28,
+};
+
+// Best
 const {jedi: isJedi} = luke;
+
+// Good
+const isJedi: boolean = luke.jedi;
+
+// Bad
+const isJedi: boolean = luke['jedi'];
 ```
 
 * Deconstruct properties when accessing properties. This way we traverse the object once and write fewer lines of code.
 * If deconstructing is not possible, use dot notation. 
 
-### ESLint
+> ESLint Rules
 
-`"dot-notation": "error"`
+```json
+{
+  "dot-notation": "error"
+}
+```
 
 
-## Braket Notation
+## Bracket Notation
 
-> Braket Notation
+> Bracket Notation
 
 ```javascript
 const luke = {
@@ -61,13 +91,36 @@ const getProp = (prop) => {
 const isJedi = getProp('jedi');
 ```
 
-```typescript
+```javascript--flow
+interface Jedi {
+  +jedi: boolean;
+  +age: number;
+}
+
 const luke: Jedi = {
   jedi: true,
   age: 28
 };
 
-const getProp = (prop: string) => {
+const getProp = (prop: string): any => {
+  return luke[prop];
+};
+
+const isJedi: boolean = getProp('jedi') as boolean;
+```
+
+```typescript
+interface Jedi {
+  readonly jedi: boolean;
+  readonly age: number;
+}
+
+const luke: Jedi = {
+  jedi: true,
+  age: 28
+};
+
+const getProp = (prop: string): any => {
   return luke[prop];
 };
 
@@ -76,29 +129,75 @@ const isJedi: boolean = getProp('jedi') as boolean;
 
 * Use bracket notation `[]` when accessing properties with a variable.
 
-
 ## Exponentiation operator
 
 > Exponentiation operator
 
 ```javascript
-// bad
-const binary = Math.pow(2, 10);
-
-// good
+// Good
 const binary = 2 ** 10;
+
+// Bad
+const binary = Math.pow(2, 10);
+```
+
+```javascript--flow
+// Good
+const binary: number = 2 ** 10;
+
+// Bad
+const binary: number = Math.pow(2, 10);
 ```
 
 ```typescript
-// bad
-const binary: number = Math.pow(2, 10);
-
-// good
+// Good
 const binary: number = 2 ** 10;
+
+// Bad
+const binary: number = Math.pow(2, 10);
 ```
 
-* Use exponentiation operator `**` when calculating exponentiations. 
+* Use exponentiation operator `**` when calculating exponentiations.
 
-### ESLint
+## Spreads
 
-`"no-restricted-properties": ["error", {"object": "Object", "property": "assign", "message": "Please use spread, {...obj}"}]`
+> Spreads
+
+```javascript
+// Good
+const father = {...vader};
+
+// Bad
+const father = Object.spread({}, vader);
+```
+
+```javascript--flow
+// Good
+const father: Jedi = {...vader};
+
+// Bad
+const father: Jedi = Object.spread({}, vader);
+```
+
+```typescript
+// Good
+const father: Jedi = {...vader};
+
+// Bad
+const father: Jedi = Object.spread({}, vader);
+```
+
+> ESLint Rules
+
+```json
+{
+  "no-restricted-properties": [
+    "error",
+    {
+      "object": "Object",
+      "property": "assign",
+      "message": "Please use spread, {...obj}"
+    }
+  ]
+}
+```

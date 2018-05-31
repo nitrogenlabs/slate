@@ -13,6 +13,15 @@ bar = 9;
 console.log(foo, bar); // => 1, 9
 ```
 
+```javascript--flow
+const foo: number = 1;
+let bar: number = foo;
+
+bar = 9;
+
+console.log(foo, bar); // => 1, 9
+```
+
 ```typescript
 const foo: number = 1;
 let bar: number = foo;
@@ -41,6 +50,15 @@ Symbols cannot be faithfully polyfilled, so they should not be used when targeti
 ```javascript
 const foo = [1, 2];
 const bar = foo;
+
+bar[0] = 9;
+
+console.log(foo[0], bar[0]); // => 9, 9
+```
+
+```javascript--flow
+const foo: number[] = [1, 2];
+const bar: number[] = foo;
 
 bar[0] = 9;
 

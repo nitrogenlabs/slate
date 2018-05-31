@@ -3,7 +3,18 @@
 > Getters and setters
 
 ```javascript
-// bad
+// Good
+class Dragon {
+  getAge() {
+    // ...
+  }
+
+  setAge(value) {
+    // ...
+  }
+}
+
+// Bad
 class Dragon {
   get age() {
     // ...
@@ -13,38 +24,51 @@ class Dragon {
     // ...
   }
 }
+```
 
-// good
+```javascript--flow
+// Good
 class Dragon {
   getAge() {
     // ...
   }
 
   setAge(value) {
+    // ...
+  }
+}
+
+// Bad
+class Dragon {
+  get age() {
+    // ...
+  }
+
+  set age(value) {
     // ...
   }
 }
 ```
 
 ```typescript
-// bad
-class Dragon {
-  get age() {
-    // ...
-  }
-
-  set age(value) {
-    // ...
-  }
-}
-
-// good
+// Good
 class Dragon {
   getAge() {
     // ...
   }
 
   setAge(value) {
+    // ...
+  }
+}
+
+// Bad
+class Dragon {
+  get age() {
+    // ...
+  }
+
+  set age(value) {
     // ...
   }
 }
@@ -53,25 +77,37 @@ class Dragon {
 > Boolean naming
 
 ```javascript
-// bad
-if(!dragon.age()) {
+// Good
+if(!dragon.hasAge()) {
   return false;
 }
 
-// good
+// Bad
+if(!dragon.age()) {
+  return false;
+}
+```
+
+```javascript--flow
+// Good
 if(!dragon.hasAge()) {
+  return false;
+}
+
+// Bad
+if(!dragon.age()) {
   return false;
 }
 ```
 
 ```typescript
-// bad
-if(!dragon.age()) {
+// Good
+if(!dragon.hasAge()) {
   return false;
 }
 
-// good
-if(!dragon.hasAge()) {
+// Bad
+if(!dragon.age()) {
   return false;
 }
 ```
@@ -90,6 +126,23 @@ class Jedi {
   }
 
   get(key) {
+    return this[key];
+  }
+}
+```
+
+```javascript--flow
+class Jedi {
+  constructor(options = {}) {
+    const lightsaber: string = options.lightsaber || 'blue';
+    this.set('lightsaber', lightsaber);
+  }
+
+  set(key: string, val: string): void {
+    this[key] = val;
+  }
+
+  get(key: string): string {
     return this[key];
   }
 }

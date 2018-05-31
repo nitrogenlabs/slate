@@ -5,47 +5,47 @@
 > Array creation
 
 ```javascript
-// bad
-const items = new Array();
-
-// good
+// Good
 const items = [];
-
-// bad
-const colors = ['red',, 'blue'];
-
-// good
 const colors = ['red', 'blue'];
+
+// Bad
+const items = new Array();
+const colors = ['red',, 'blue'];
+```
+
+```javascript--flow
+// Good
+const items: any[] = [];
+const colors: string[] = ['red', 'blue'];
+
+// Bad
+const items: any[] = new Array();
+const colors: string[] = ['red',, 'blue'];
 ```
 
 ```typescript
-// bad
-const items: any[] = new Array();
-
-// good
+// Good
 const items: any[] = [];
-
-// bad
-const colors: string[] = ['red',, 'blue'];
-
-// good
 const colors: string[] = ['red', 'blue'];
+
+// Bad
+const items: any[] = new Array();
+const colors: string[] = ['red',, 'blue'];
 ```
 
 * Use the literal syntax for array creation.
 * No sparse arrays. Arrays containing empty slots, most frequently due to multiple commas being used in an array literal.
 * TypeScript should enforce the use of, `T[]` instead of `Array<T>` for all types `T`.
 
-### ESLint
+> ESLint Rules
 
-`"no-array-constructor": "error"`
-
-`"no-sparse-arrays": "error"`
-
-### TSLint
-
-`"array-type": [true, "array"]`
-
+```json
+{
+  "no-array-constructor": "error",
+  "no-sparse-arrays": "error"
+}
+```
 
 ## Add items
 
@@ -54,21 +54,31 @@ const colors: string[] = ['red', 'blue'];
 ```javascript
 const someStack = [];
 
-// bad
-someStack[someStack.length] = 'abracadabra';
-
-// good
+// Good
 someStack.push('abracadabra');
+
+// Bad
+someStack[someStack.length] = 'abracadabra';
+```
+
+```javascript--flow
+const someStack: string[] = [];
+
+// Good
+someStack.push('abracadabra');
+
+// Bad
+someStack[someStack.length] = 'abracadabra';
 ```
 
 ```typescript
 const someStack: string[] = [];
 
-// bad
-someStack[someStack.length] = 'abracadabra';
-
-// good
+// Good
 someStack.push('abracadabra');
+
+// Bad
+someStack[someStack.length] = 'abracadabra';
 ```
 
 * Use Array#push instead of direct assignment to add items to an array.
@@ -76,7 +86,10 @@ someStack.push('abracadabra');
 > Use spreads
 
 ```javascript
-// bad
+// Good
+const itemsCopy: any[] = [...items];
+
+// Bad
 const len = items.length;
 const itemsCopy = [];
 let i;
@@ -84,13 +97,13 @@ let i;
 for (i = 0; i < len; i += 1) {
   itemsCopy[i] = items[i];
 }
-
-// good
-const itemsCopy: any[] = [...items];
 ```
 
-```typescript
-// bad
+```javascript--flow
+// Good
+const itemsCopy: any[] = [...items];
+
+// Bad
 const len: number = items.length;
 const itemsCopy: any[] = [];
 let i: number;
@@ -98,9 +111,20 @@ let i: number;
 for (i = 0; i < len; i += 1) {
   itemsCopy[i] = items[i];
 }
+```
 
-// good
+```typescript
+// Good
 const itemsCopy: any[] = [...items];
+
+// Bad
+const len: number = items.length;
+const itemsCopy: any[] = [];
+let i: number;
+
+for (i = 0; i < len; i += 1) {
+  itemsCopy[i] = items[i];
+}
 ```
 
 * Use array spreads `...` to copy arrays.
@@ -112,21 +136,31 @@ const itemsCopy: any[] = [...items];
 ```javascript
 const foo = document.querySelectorAll('.foo');
 
-// good
-const nodes = Array.from(foo);
-
-// best
+// Best
 const nodes = [...foo];
+
+// Good
+const nodes = Array.from(foo);
+```
+
+```javascript--flow
+const foo: any[] = document.querySelectorAll('.foo');
+
+// Best
+const nodes: any[] = [...foo];
+
+// Good
+const nodes: any[] = Array.from(foo);
 ```
 
 ```typescript
 const foo: any[] = document.querySelectorAll('.foo');
 
-// good
-const nodes: any[] = Array.from(foo);
-
-// best
+// Best
 const nodes: any[] = [...foo];
+
+// Good
+const nodes: any[] = Array.from(foo);
 ```
 
 * To convert an array-like object to an array, use spreads `...` instead of Array.from.
@@ -134,19 +168,27 @@ const nodes: any[] = [...foo];
 > Mapping over iterables
 
 ```javascript
-// bad
-const baz = [...foo].map(bar);
-
-// good
+// Good
 const baz = Array.from(foo, bar);
+
+// Bad
+const baz = [...foo].map(bar);
+```
+
+```javascript--flow
+// Good
+const baz: any[] = Array.from(foo, bar);
+
+// Bad
+const baz: any[] = [...foo].map(bar);
 ```
 
 ```typescript
-// bad
-const baz: any[] = [...foo].map(bar);
-
-// good
+// Good
 const baz: any[] = Array.from(foo, bar);
+
+// Bad
+const baz: any[] = [...foo].map(bar);
 ```
 
 * Use `Array.from` instead of spread `...` for mapping over iterables, because it avoids creating an intermediate array.
@@ -154,39 +196,23 @@ const baz: any[] = Array.from(foo, bar);
 > Return statements
 
 ```javascript
-// good
+// Good
 [1, 2, 3].map((x) => {
   const y = x + 1;
   return x \* y;
 });
 
-// good
+// Good
 [1, 2, 3].map((x) => x + 1);
 
-// bad - no returned value means `memo` becomes undefined after the first
-iteration [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
-  const flatten = memo.concat(item);
-  memo[index] = flatten;
-});
-
-// good
+// Good
 [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
   const flatten = memo.concat(item);
   memo[index] = flatten;
   return flatten;
 });
 
-// bad
-inbox.filter((msg) => {
-  const { subject, author } = msg;
-  if (subject === 'Mockingbird') {
-    return author === 'Harper Lee';
-  } else {
-    return false;
-  }
-});
-
-// good
+// Good
 inbox.filter((msg) => {
   const { subject, author } = msg;
 
@@ -195,43 +221,96 @@ inbox.filter((msg) => {
   }
 
   return false;
+});
+
+// Bad - no returned value means `memo` becomes undefined after the first
+iteration [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
+  const flatten = memo.concat(item);
+  memo[index] = flatten;
+});
+
+// Bad
+inbox.filter((msg) => {
+  const { subject, author } = msg;
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee';
+  } else {
+    return false;
+  }
+});
+```
+
+```javascript--flow
+// Good
+[1, 2, 3].map((x) => {
+  const y = x + 1;
+  return x \* y;
+});
+
+// Good
+[1, 2, 3].map((x) => x + 1);
+
+
+// Good
+[[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
+  const flatten = memo.concat(item);
+  memo[index] = flatten;
+  return flatten;
+});
+
+// Bad - no returned value means `memo` becomes undefined after the first
+iteration [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
+  const flatten = memo.concat(item);
+  memo[index] = flatten;
+});
+
+// Good
+inbox.filter((msg) => {
+  const { subject, author } = msg;
+
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee';
+  }
+
+  return false;
+});
+
+// Bad
+inbox.filter((msg) => {
+  const { subject, author } = msg;
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee';
+  } else {
+    return false;
+  }
 });
 ```
 
 ```typescript
-// good
+// Good
 [1, 2, 3].map((x) => {
   const y = x + 1;
   return x \* y;
 });
 
-// good
+// Good
 [1, 2, 3].map((x) => x + 1);
 
-// bad - no returned value means `memo` becomes undefined after the first
-iteration [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
-  const flatten = memo.concat(item);
-  memo[index] = flatten;
-});
 
-// good
+// Good
 [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
   const flatten = memo.concat(item);
   memo[index] = flatten;
   return flatten;
 });
 
-// bad
-inbox.filter((msg) => {
-  const { subject, author } = msg;
-  if (subject === 'Mockingbird') {
-    return author === 'Harper Lee';
-  } else {
-    return false;
-  }
+// Bad - no returned value means `memo` becomes undefined after the first
+iteration [[0, 1], [2, 3], [4, 5]].reduce((memo, item, index) => {
+  const flatten = memo.concat(item);
+  memo[index] = flatten;
 });
 
-// good
+// Good
 inbox.filter((msg) => {
   const { subject, author } = msg;
 
@@ -240,53 +319,47 @@ inbox.filter((msg) => {
   }
 
   return false;
+});
+
+// Bad
+inbox.filter((msg) => {
+  const { subject, author } = msg;
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee';
+  } else {
+    return false;
+  }
 });
 ```
 
 * Use return statements in array method callbacks. It's ok to omit the return if the function body consists of a single statement returning an expression without side effects.
 
-### ESLint
+> ESLint Rules
 
-`"array-callback-return": "error"`
-
+```json
+{
+  "array-callback-return": "error"
+}
+```
 
 ## Line breaks
 
 > Line breaks
 
 ```javascript
-// bad
+// Good
 const arr = [[0, 1], [2, 3], [4, 5]];
-
 const objectInArray = [{id: 1}, {id: 2}];
-
 const numberInArray = [1, 2];
 
-// good
+// Bad
 const arr = [[0, 1], [2, 3], [4, 5]];
-
 const objectInArray = [{id: 1}, {id: 2}];
-
 const numberInArray = [1, 2];
 ```
 
-```typescript
-// bad
-const arr: number[] = [
-  [0, 1], [2, 3], [4, 5]
-];
-
-const objectInArray: object[] = [{
-  id: 1
-}, {
-    id: 2
-}];
-
-const numberInArray number[] = [
-  1, 2
-];
-
-// good
+```javascript--flow
+// Good
 const arr = [
   [0, 1],
   [2, 3],
@@ -301,6 +374,55 @@ const objectInArray = [
 const numberInArray: number[] = [
   1,
   2
+];
+
+// Bad
+const arr: number[] = [
+  [0, 1], [2, 3], [4, 5]
+];
+
+const objectInArray: object[] = [{
+  id: 1
+}, {
+    id: 2
+}];
+
+const numberInArray number[] = [
+  1, 2
+];
+```
+
+```typescript
+// Good
+const arr = [
+  [0, 1],
+  [2, 3],
+  [4, 5]
+];
+
+const objectInArray = [
+  {id: 1},
+  {id: 2}
+];
+
+const numberInArray: number[] = [
+  1,
+  2
+];
+
+// Bad
+const arr: number[] = [
+  [0, 1], [2, 3], [4, 5]
+];
+
+const objectInArray: object[] = [{
+  id: 1
+}, {
+    id: 2
+}];
+
+const numberInArray number[] = [
+  1, 2
 ];
 ```
 
