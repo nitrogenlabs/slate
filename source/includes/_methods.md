@@ -86,7 +86,7 @@ export class AppView extends React.Component {
 
   onGetItems() {
     // Get the item from the updated store.
-    const item = Flux.getStore('app.item', {});
+    const item = Flux.getState('app.item', {});
     this.setState({item});
   }
   // Get item action would be triggered below with
@@ -127,7 +127,7 @@ export class AppView extends React.Component {
 
   onGetItems(): void {
     // Get the item from the store.
-    const item: AppItemType = Flux.getStore('app.item', {});
+    const item: AppItemType = Flux.getState('app.item', {});
     this.setState({item});
   }
   // Get item action would be triggered below with
@@ -136,7 +136,7 @@ export class AppView extends React.Component {
 }
 ```
 
-Adds an event listener. It is called any time an action is dispatched to Flux, and some part of the state tree may potentially have changed. You may then call getStore() to read the current state tree inside the callback.
+Adds an event listener. It is called any time an action is dispatched to Flux, and some part of the state tree may potentially have changed. You may then call getState() to read the current state tree inside the callback.
 
 #### Arguments
 * [`eventType`] \(*string*): Event to subscribe for store updates.
@@ -164,30 +164,30 @@ A promise with an action object.
 
 ## Stores
 
-### #getStore(name, default)
+### #getState(name, default)
 
 > Get store data
 
 ```javascript
 // Get the root store object.
-Flux.getStore();
+Flux.getState();
 
 // Using a dot notation.
-Flux.getStore('app.test', 'default');
+Flux.getState('app.test', 'default');
 
 // Using an array to traverse.
-Flux.getStore(['app', 'test'], 'default');
+Flux.getState(['app', 'test'], 'default');
 ```
 
 ```typescript
 // Get the root store object.
-Flux.getStore();
+Flux.getState();
 
 // Using a dot notation.
-Flux.getStore('app.test', 'default');
+Flux.getState('app.test', 'default');
 
 // Using an array to traverse.
-Flux.getStore(['app', 'test'], 'default');
+Flux.getState(['app', 'test'], 'default');
 ```
 
 Get the state tree. If only a particular store is needed, it can be specified.
@@ -200,27 +200,27 @@ Get the state tree. If only a particular store is needed, it can be specified.
 The app store object.
 
 
-### #setStore(name, value)
+### #setState(name, value)
 
 > Set store data
 
 ```javascript
 // Using a dot notation.
-Flux.setStore('app.test', 'Hello World');
+Flux.setState('app.test', 'Hello World');
 
 // Using an array to traverse.
-Flux.setStore(['app', 'test'], 'Hello World');
+Flux.setState(['app', 'test'], 'Hello World');
 ```
 
 ```typescript
 // Using a dot notation.
-Flux.setStore('app.test', 'Hello World');
+Flux.setState('app.test', 'Hello World');
 
 // Using an array to traverse.
-Flux.setStore(['app', 'test'], 'Hello World');
+Flux.setState(['app', 'test'], 'Hello World');
 ```
 
-Used for unit testing. Set a store value. If only a particular store or property needs to be set, it can be specified. It is best practice to set update the state via actions, not directly using `setStore`.
+Used for unit testing. Set a store value. If only a particular store or property needs to be set, it can be specified. It is best practice to set update the state via actions, not directly using `setState`.
 
 #### Arguments
 * [`name`] \(*string*|*string[]*): A store name. May also use an array to get a nested property value.
@@ -253,7 +253,7 @@ Get the store class object.
 A store class object.
 
 
-### #registerStores(stores)
+### #addStores(stores)
 
 > Register a store
 
@@ -261,14 +261,14 @@ A store class object.
 import {AppStore} from '../stores/AppStore';
 
 // Register stores to be used with the app.
-Flux.registerStores([AppStore]);
+Flux.addStores([AppStore]);
 ```
 
 ```typescript
 import {AppStore} from '../stores/AppStore';
 
 // Register stores to be used with the app.
-Flux.registerStores([AppStore]);
+Flux.addStores([AppStore]);
 ```
 
 Registers additional stores with Flux. Use an array of classes to register multiple. This method registers stores after the init method is called. For use with lazy loading of stores. Any stores that are to be added on initialization of the framework should be added to the options in the init method.
@@ -280,18 +280,18 @@ Registers additional stores with Flux. Use an array of classes to register multi
 An array of store class objects.
 
 
-### #deregisterStores(names)
+### #removeStores(names)
 
 > Remove a store from the app
 
 ```javascript
 // Deregister stores from the app.
-Flux.deregisterStores(['app']);
+Flux.removeStores(['app']);
 ```
 
 ```typescript
 // Deregister stores from the app.
-Flux.deregisterStores(['app']);
+Flux.removeStores(['app']);
 ```
 
 Deregisters stores from Flux. Use an array of names to deregister multiple stores.
